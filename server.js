@@ -9,7 +9,7 @@ const image = require('./controllers/image');
 const knex = require('knex')({
     client: 'pg',
     connection: {
-        host: '127.0.0.1',
+        host: 'postgresql-polished-99981',
         //port : 3306,
         user: 'sid',
         password: 'helloworld',
