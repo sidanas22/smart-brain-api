@@ -12,6 +12,7 @@ const knex = require('knex')({
         host: 'postgresql-polished-99981',
         //port : 3306,
         user: 'sid',
+        // password: 'helloworld',
         password: 'helloworld',
         database: 'smart-brain'
     }
