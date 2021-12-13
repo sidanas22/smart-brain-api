@@ -16,6 +16,7 @@ const handleRegister = (req, res, db, bcrypt) => {
     });
 
     db.transaction(trx => {
+        console.log("we are here");
         trx.insert
             (
                 {
