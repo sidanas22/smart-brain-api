@@ -8,12 +8,17 @@ const handleRegister = (req, res, db, bcrypt) => {
 
     var hash_password;
 
+    console.log("before hash function");
+
     bcrypt.genSalt(10, function (err, salt) {
         bcrypt.hash(password, salt, function (err, hash) {
             hash_password = hash;
             console.log("inside hash func");
         });
     });
+
+
+    console.log("after hash function");
 
     db.transaction(trx => {
         console.log("we are here");
@@ -47,7 +52,7 @@ const handleRegister = (req, res, db, bcrypt) => {
     }
     )
         .catch(err => {
-            res.status(400).json("unable to register");
+            res.status(400).json( err.message);
         }
         )
 
