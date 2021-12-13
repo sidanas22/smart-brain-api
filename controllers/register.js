@@ -11,6 +11,7 @@ const handleRegister = (req, res, db, bcrypt) => {
     bcrypt.genSalt(10, function (err, salt) {
         bcrypt.hash(password, salt, function (err, hash) {
             hash_password = hash;
+            console.log("inside hash func");
         });
     });
 
@@ -25,6 +26,7 @@ const handleRegister = (req, res, db, bcrypt) => {
             .into('login')
             .returning('email')
             .then(loginemail => {
+                console.log("inside transaction this has worked");
                 return trx('users').returning('*')
                     .insert({
                         email: loginemail[0],
@@ -33,12 +35,14 @@ const handleRegister = (req, res, db, bcrypt) => {
                     })
                     .then(user => {
                         res.json(user[0]);
-                    })
+                    });
 
             }
             )
             .then(trx.commit)
             .catch(trx.rollback)
+
+            console.log("something 2");
     }
     )
         .catch(err => {
