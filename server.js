@@ -10,7 +10,9 @@ const knex = require('knex')({
     client: 'pg',
     connection: {
         connectionString: process.env.DATABASE_URL,
-        ssl: true
+        ssl: {
+            rejectUnauthorized: false
+          }
         //host: 'localhost',
         //port : 3306,
         // user: 'sid',
