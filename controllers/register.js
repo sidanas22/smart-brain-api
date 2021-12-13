@@ -49,6 +49,7 @@ const handleRegister = (req, res, db, bcrypt) => {
             }
             )
                 .catch(err => {
+                    some_message= "error is :"+err.message 
                     res.status(400).json( err.message);
                 }
                 )
