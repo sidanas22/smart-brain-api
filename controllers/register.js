@@ -14,47 +14,86 @@ const handleRegister = (req, res, db, bcrypt) => {
         bcrypt.hash(password, salt, function (err, hash) {
             hash_password = hash;
             console.log("inside hash func");
+
+            //start
+
+            db.transaction(trx => {
+                console.log("we are here");
+                trx.insert
+                    (
+                        {
+                            hash: hash_password,
+                            email: email,
+                        }
+                    )
+                    .into('login')
+                    .returning('email')
+                    .then(loginemail => {
+                        console.log("inside transaction this has worked");
+                        return trx('users').returning('*')
+                            .insert({
+                                email: loginemail[0],
+                                name: name,
+                                joined: new Date()
+                            })
+                            .then(user => {
+                                res.json(user[0]);
+                            });
+        
+                    }
+                    )
+                    .then(trx.commit)
+                    .catch(trx.rollback)
+        
+                    console.log("something 2");
+            }
+            )
+                .catch(err => {
+                    res.status(400).json( err.message);
+                }
+                )
+
         });
     });
 
 
     console.log("after hash function");
 
-    db.transaction(trx => {
-        console.log("we are here");
-        trx.insert
-            (
-                {
-                    hash: hash_password,
-                    email: email,
-                }
-            )
-            .into('login')
-            .returning('email')
-            .then(loginemail => {
-                console.log("inside transaction this has worked");
-                return trx('users').returning('*')
-                    .insert({
-                        email: loginemail[0],
-                        name: name,
-                        joined: new Date()
-                    })
-                    .then(user => {
-                        res.json(user[0]);
-                    });
+    // db.transaction(trx => {
+    //     console.log("we are here");
+    //     trx.insert
+    //         (
+    //             {
+    //                 hash: hash_password,
+    //                 email: email,
+    //             }
+    //         )
+    //         .into('login')
+    //         .returning('email')
+    //         .then(loginemail => {
+    //             console.log("inside transaction this has worked");
+    //             return trx('users').returning('*')
+    //                 .insert({
+    //                     email: loginemail[0],
+    //                     name: name,
+    //                     joined: new Date()
+    //                 })
+    //                 .then(user => {
+    //                     res.json(user[0]);
+    //                 });
 
-            }
-            )
-            .then(trx.commit)
-            .catch(trx.rollback)
+    //         }
+    //         )
+    //         .then(trx.commit)
+    //         .catch(trx.rollback)
 
-            console.log("something 2");
-    }
-    )
-        .catch(err => {
-            res.status(400).json( err.message);
-        }
-        )
+    //         console.log("something 2");
+    // }
+    // )
+    //     .catch(err => {
+    //         res.status(400).json( err.message);
+    //     }
+    //     )
 
 }
 
