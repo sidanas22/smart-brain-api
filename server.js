@@ -6,6 +6,7 @@ const register = require('./controllers/register');
 const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
+//this below is specifically for heroku production build
 const knex = require('knex')({
     client: 'pg',
     connection: {
