@@ -22,6 +22,8 @@ const knex = require('knex')({
         // password: 'helloworld',
         // database: 'smart-brain'
     }
+
+    // technical debt.
 });
 const db = knex;
 
