@@ -1,37 +1,79 @@
 const express = require('express');
+
+const crypto = require('crypto');
 var bcrypt = require('bcryptjs');
 const cors = require('cors');
-//random comment
 const { response } = require('express');
+
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+  }
+
 const register = require('./controllers/register');
 const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
-//this below is specifically for heroku production build
+const THIRTY_MIN = 1000 * 60 * 30
+//code for session
+const session = require('express-session');
+const { cookie } = require('express/lib/response');
+const KnexSessionStore = require('connect-session-knex')(session);
+
+const {
+    SESS_LIFETIME,
+    SESS_NAME,
+    SESS_SECRET
+} = process.env;
+
+//FOR HEROKU SERVER
 const knex = require('knex')({
     client: 'pg',
     connection: {
         connectionString: process.env.DATABASE_URL,
         ssl: {
             rejectUnauthorized: false
-          }
-        //host: 'localhost',
-        //port : 3306,
-        // user: 'sid',
-        // password: 'helloworld',
-        // password: 'helloworld',
-        // database: 'smart-brain'
+        }
+
     }
 
-    // technical debt.
 });
+
 const db = knex;
+
+// const store = KnexSessionStore(
+//     {
+//         knex: db,
+//         //createtable: true,
+//         tablename: 'sessions'
+//     });
+
+
+
+
 
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
+// app.use(session(
+//     {
+//         name: SESS_NAME,
+//         resave: false,
+//         rolling: false,
+//         saveUninitialized: false,
+//         secret: SESS_SECRET,
+//         cookie: {
+//             maxAge: SESS_LIFETIME,
+//             sameSite: true,
+//             secure: false //only currently false. cahnge in future
+//         },
+//         store//,
+//         // genid: function(req) {
+//         //     return genuuid() // use UUIDs for session IDs
+//         //   },
+//     }
+// ));
 
 
 
@@ -39,6 +81,8 @@ app.use(cors());
 app.get('/', (req, res) => {
     res.send("success reaching homepage!");
 })
+
+//app.get('/home', (req) )
 
 app.put('/image', (req, res, db) => { image.handleImage(req, res, db) })
 

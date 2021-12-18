@@ -1,6 +1,6 @@
 const handleRegister = (req, res, db, bcrypt) => {
     //res.send("signing in");
-    const { email, name, password } = req.body;
+    const { email, name, password, role,web_view } = req.body;
     if(!email || !name || !password)
     {
        return res.status(400).json('incorrect form submission');
@@ -24,6 +24,7 @@ const handleRegister = (req, res, db, bcrypt) => {
                         {
                             hash: hash_password,
                             email: email,
+                           
                         }
                     )
                     .into('login')
@@ -34,7 +35,9 @@ const handleRegister = (req, res, db, bcrypt) => {
                             .insert({
                                 email: loginemail[0],
                                 name: name,
-                                joined: new Date()
+                                joined: new Date(),
+                                role: role,
+                                web_view: role == 0 //retursn true if role is 0
                             })
                             .then(user => {
                                 res.json(user[0]);
