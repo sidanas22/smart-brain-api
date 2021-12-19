@@ -18,15 +18,16 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
     var flag = false;
     var hash_password;
 
-    db.select('*').from('login').where('email','=', email)
+    db.select('1').from('login').where('email','=', email)
         .then(data => {
             flag = true;
-        })
-        .catch(err => {
-            flag = false;
             res.status(400).json({
                 emailExists: true
             })
+        })
+        .catch(err => {
+            flag = false;
+            
         })
 
     console.log("before hash function");
