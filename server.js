@@ -50,8 +50,10 @@ const db = knex;
 const store = KnexSessionStore(
     {
         knex: db,
-        //createtable: true,
-        tablename: 'sessions'
+        createtable: true,
+        tablename: 'sessions',
+        clearInterval: 120000,
+        disableDbCleanup: false
     });
 
 
@@ -81,7 +83,7 @@ app.use(session(
     }
 ));
 
-
+store.
 
 
 app.get('/', redirect_home, (req, res) => {

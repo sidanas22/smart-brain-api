@@ -61,8 +61,8 @@ const handleRegister = (req, res, db, bcrypt) => {
                                 console.log("This is happening");
                                 console.log("When registered. User Id is ", req.session.userId);
                                 console.log("When registered Session Id is ", req.session.id);
-                                res.status(200);
-                                res.redirect('/home')
+                                res.status(200).send("Login successful");
+                                //res.redirect('/home')
                             });
         
                     }
