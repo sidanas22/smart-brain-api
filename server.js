@@ -105,7 +105,7 @@ app.get('/profile/:id', (req, res) => { profile.handleProfileGet(req, res, db) }
 //curried func use
 app.post('/signin', redirect_home, signin.handleSignin(db, bcrypt))
 
-app.post('/register', redirect_home, (req, res) => { register.handleRegister(req, res, db, bcrypt); })
+app.post('/register', redirect_home, (req, res) => { register.handleRegister(req, res, db, bcrypt, store); })
 
 app.post('/logout', logout.handle_logout);
 

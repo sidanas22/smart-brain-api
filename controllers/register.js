@@ -1,6 +1,6 @@
 //const session = require('express-session');
 
-const handleRegister = (req, res, db, bcrypt) => {
+const handleRegister = (req, res, db, bcrypt, store) => {
     //res.send("signing in");
     const { email, name, password, role ,web_view } = req.body;
     if(!email || !name || !password)
@@ -61,6 +61,10 @@ const handleRegister = (req, res, db, bcrypt) => {
                                 console.log("This is happening");
                                 console.log("When registered. User Id is ", req.session.userId);
                                 console.log("When registered Session Id is ", req.session.id);
+                                store.set(req.session.id, req.session,(err)=>{
+                                    console.log("Message of the error is!");
+                                    console.log(err.message);
+                                })
                                 res.status(200).send("Login successful");
                                 //res.redirect('/home')
                             });
