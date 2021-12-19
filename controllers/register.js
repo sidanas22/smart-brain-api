@@ -6,7 +6,19 @@ const handleRegister = (req, res, db, bcrypt) => {
        return res.status(400).json('incorrect form submission');
     }
 
+    var flag = false;
     var hash_password;
+
+    db.select('*').from('login').where('email',email)
+    .then(data => {
+        flag = true;
+    })
+    .catch(err =>{
+        flag = false;
+        return res.status(409).json({
+            emailExists: true
+        })
+    })
 
     console.log("before hash function");
 
@@ -40,7 +52,9 @@ const handleRegister = (req, res, db, bcrypt) => {
                                 web_view: role == 0 //retursn true if role is 0
                             })
                             .then(user => {
-                                res.json(user[0]);
+                                //res.json(user[0]);
+                                res.status(200);
+                                res.redirect('/home')
                             });
         
                     }

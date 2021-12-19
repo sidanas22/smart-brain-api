@@ -7,6 +7,8 @@ const handleSignin = (db, bcrypt) => (req, res) => {
        return res.status(400).json('incorrect form submission');
     }
 
+    
+
     db.select('email', 'hash').from('login').where('email', '=', email)
         .then(data => {
             bcrypt.compare(password, data[0].hash)
@@ -17,14 +19,11 @@ const handleSignin = (db, bcrypt) => (req, res) => {
                         return db.select('*').from('users')
                             .where('email', '=', email)
                             .then(user => {
-                                //res.json(user[0]);
-                                //res.session.userID = user[0].i
+                            
+                                res.session.userID = user[0].id;
                                 console.log("Hey Hey Hey:",typeof(user[0].id));
-                                res.json(
-                                    {
-                                        signedin : true
-                                    }
-                                    )
+                                res.redirect('/home');
+                               
                             })
                             .catch(err => {
                                 res.status(400).json('cannot get user');
