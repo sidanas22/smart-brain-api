@@ -1,3 +1,5 @@
+const session = require('express-session');
+
 const handleRegister = (req, res, db, bcrypt) => {
     //res.send("signing in");
     const { email, name, password, role,web_view } = req.body;
