@@ -73,11 +73,11 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                                     //const sub_query = trx.select('user_id').from('users').where()
                                     ret_value = random_string;
 
-                                    db('user_sessions').insert({
+                                    return trx.insert({
                                         session_id: random_string,
                                         expired: false,
                                         user_id: user[0].id
-                                    })
+                                    }).into('user_sessions');
 
                                 })
                                 //trx.raw(chose);
