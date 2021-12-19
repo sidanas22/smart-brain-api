@@ -1,13 +1,15 @@
 //const session = require('express-session');
 
 const session = require("express-session");
+const uuid = require('uuid');
 const { concat } = require("lodash");
 //const Promise = require('bluebird');
 
 
 const handleRegister = (req, res, db, bcrypt, crypto) => {
     //res.send("signing in");
-    var ret_value = '';
+    let ret_value = '';
+    var uid;
     const { email, name, password, role, web_view } = req.body;
     if (!email || !name || !password) {
         return res.status(400).json('incorrect form submission');
@@ -61,23 +63,26 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                             .then(user => {
 
                                 console.log("inside transaction this is worked");
-                                random_string = '';
-                                crypto.randomBytes(16, (err, buf) => {
-                                    if (err) throw err;
+                                ret_value = uuid.v4();
+                                uid = user[0].id;
+                                return;
+                                // random_string = '';
+                                // crypto.randomBytes(16, (err, buf) => {
+                                //     if (err) throw err;
 
-                                    random_string = buf.toString('hex');
-                                    console.log(random_string);
-                                    ret_value = random_string;
-                                    //concat()
-                                    //var chose = 'insert into user_sessions where (session_id, expired, user_id) values(' + random_string + ',' + ' false,( select id from users where id = ' + user[0].id.toString() + '));'
+                                //     random_string = buf.toString('hex');
+                                //     console.log(random_string);
+                                //     ret_value = random_string;
+                                //     //concat()
+                                //     //var chose = 'insert into user_sessions where (session_id, expired, user_id) values(' + random_string + ',' + ' false,( select id from users where id = ' + user[0].id.toString() + '));'
 
-                                    //const sub_query = trx.select('user_id').from('users').where()
+                                //     //const sub_query = trx.select('user_id').from('users').where()
                                     
-                                    console.log("REt value:", ret_value);
+                                //     console.log("REt value:", ret_value);
 
                                    
 
-                                })
+                                // })
                                 //trx.raw(chose);
                                 // console.log("inside transaction this has worked too");
                                 // return trx;
