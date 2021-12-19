@@ -57,47 +57,53 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                             })
                             .then(user => {
 
-                                var random_string ='';
+                                var random_string = '';
                                 crypto.randomBytes(16, (err, buf) => {
                                     if (err) throw err;
 
                                     random_string = buf.toString('hex');
                                 });
 
-                                return db('user_sessions').returning('session_id').insert({
-                                    session_id: random_string,
-                                    expired: false,
-                                    user_id: user[0].id
-                                }).then((session_data) => {
-                                    console.data("Session ID: ", session_data);
-                                }
+                                return
+
+                                var chose = 'insert into user_sessions where (session_id, expired, user_id values(' +random_string+','+ ' false,( select id from users where id = '+ user[0].id.toString()+'))'
+                                db.raw(chose);
+                                // db('user_sessions').returning('session_id').insert({
+                                //     session_id: random_string,
+                                //     expired: false,
+                                //     //user_id: 
+                                // }).then((session_data) => {
+                                //     db('users')
+                                //     db.select('id').from('users').insetr()where('id','=', user[0].id)
+                                //     console.data("Session ID: ", session_data);
+                                // }
 
                                 );
 
 
 
 
-                            });
+                    });
 
-                    }
-                    )
-                    .then(trx.commit)
-                    .catch(trx.rollback)
-
-                // console.log("something 2");
             }
             )
-                .catch(err => {
-                    some_message = "error is :" + err.message
-                    res.status(400).json(err.message);
-                }
-                )
+                .then(trx.commit)
+                .catch(trx.rollback)
 
-        });
+            // console.log("something 2");
+        }
+        )
+            .catch(err => {
+                some_message = "error is :" + err.message
+                res.status(400).json(err.message);
+            }
+            )
+
     });
+});
 
 
-    console.log("after hash function");
+console.log("after hash function");
 
 
 
