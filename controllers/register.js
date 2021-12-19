@@ -21,7 +21,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
     db.select('*').from('login').where('email','=', email)
         .then(data => {
             flag = true;
-            res.status(400).json({
+            return res.status(400).json({
                 emailExists: true
             })
         })
