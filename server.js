@@ -83,7 +83,7 @@ app.use(session(
     }
 ));
 
-store.
+
 
 
 app.get('/', redirect_home, (req, res) => {
