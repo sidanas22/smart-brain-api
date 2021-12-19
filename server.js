@@ -20,9 +20,7 @@ const image = require('./controllers/image');
 //middleware
 const { redirect_home, redirect_signin, redirect_root } = require('./middleware/redirects');
 
-// const THIRTY_MIN = 1000 * 60 * 30
 
-//maintaing user sessions
 
 
 //env variables
@@ -47,14 +45,6 @@ const knex = require('knex')({
 
 const db = knex;
 
-// const store = KnexSessionStore(
-//     {
-//         knex: db,
-//         createtable: true,
-//         tablename: 'sessions',
-//         clearInterval: 120000,
-//         disableDbCleanup: false
-//     });
 
 
 
@@ -63,26 +53,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// app.use(session(
-//     {
-//         name: SESS_NAME,
-//         resave: false,
-//         rolling: false,
-//         saveUninitialized: false,
-//         secret: SESS_SECRET,
-//         cookie: {
-//             maxAge: 1800000,
-//             sameSite: true,
-//             secure: false //only currently false. cahnge in future
-//         },
-//         store: store
-//         //,
-//         // genid: function(req) {
-//         //     return genuuid() // use UUIDs for session IDs
-//         //   },
-//     }
-   
-// ));
 
 
 
