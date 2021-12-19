@@ -75,10 +75,10 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                                 // }).then((session_data) => {
                                 //     db('users')
                                 //     db.select('id').from('users').insetr()where('id','=', user[0].id)
-                                //     console.data("Session ID: ", session_data);
-                                // }
+                                // //     console.data("Session ID: ", session_data);
+                                // // }
 
-                                );
+                                // );
 
 
 
