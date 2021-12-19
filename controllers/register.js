@@ -73,12 +73,16 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                                     return trx('user_sessions').insert({
                                         session_id: random_string,
                                         expired: false,
-                                        
-                                    }).select('user_id').from('users').where('user_id','=',user[0].id).then(u_id => { trx('user_sessions').insert('user_id',u_id[0]) })
+                                        user_id : user[0].id
+                                    })
                                 })
                                 //trx.raw(chose);
                                 // console.log("inside transaction this has worked too");
                                 // return trx;
+
+                                res.status(200).json({
+                                    random_string: random_string
+                                })
                             });
 
 
