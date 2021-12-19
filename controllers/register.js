@@ -36,7 +36,7 @@ const handleRegister = (req, res, db, bcrypt) => {
                                 email: loginemail[0],
                                 name: name,
                                 joined: new Date(),
-                                role: role,
+                                roles: role,
                                 web_view: role == 0 //retursn true if role is 0
                             })
                             .then(user => {
