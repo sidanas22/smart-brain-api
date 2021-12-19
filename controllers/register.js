@@ -66,7 +66,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
 
                                 
 
-                                var chose = 'insert into user_sessions where (session_id, expired, user_id) values(' +random_string+','+ ' false,( select id from users where id = '+ user[0].id.toString()+'))'
+                                var chose = 'insert into user_sessions where (session_id, expired, user_id) values(' +random_string.toString()+','+ ' false,( select id from users where id = '+ user[0].id.toString()+'));'
                                 return db.raw(chose);
                                 // db('user_sessions').returning('session_id').insert({
                                 //     session_id: random_string,
