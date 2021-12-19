@@ -2,6 +2,7 @@
 
 const session = require("express-session");
 const { concat } = require("lodash");
+//const Promise = require('bluebird');
 
 
 const handleRegister = (req, res, db, bcrypt, crypto) => {
@@ -98,10 +99,10 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
 
 
 
-                    });
+                    }).then(trx.commit).catch(trx.rollback);
 
             }
-            ).then(trx.commit).catch(trx.rollback)
+            )
 
             // console.log("something 2");
         }
