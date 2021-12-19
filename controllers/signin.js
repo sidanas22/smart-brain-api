@@ -29,15 +29,15 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                                     session_id : buff,
                                     expired: false,
                                     user_id: user[0].id
-                                })
+                                }).then(console.log("success in creating user session for signin route"))
+                                .catch(err =>
+                                    {
+                                        console.log(err.message);
+                                    })
 
-                                //console.log(req.session.store.length);
-                                res.status(200).json({session_id: buff});
                                 
-                                res.json({
-                                    session_id : 
-
-                                })
+                                
+                                res.status(200).json({session_id: buff});
                                
 
                             })

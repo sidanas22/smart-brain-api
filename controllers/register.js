@@ -55,17 +55,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                                 web_view: role == 0 //retursn true if role is 0
                             })
                             .then(user => {
-                                //res.json(user[0]);
-                                //console.log("The user id is : ", user[0].id);
-                                //console.log(req.session);
-                                //req.session.userId = user[0].id;
-                                //console.log("This is happening");
-                                //console.log("When registered. User Id is ", req.session.userId);
-                                //console.log("When registered Session Id is ", req.session.id);
-                                // store.set(req.session.id, req.session,(err)=>{
-                                //     console.log("Message of the error is!");
-                                //     console.log(err.message);
-                                // })
+                                
                                 var buff;
                                 crypto.randomBytes(16, (err, buf) => {
                                     if (err) throw err;
@@ -78,9 +68,9 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                                     user_id: user[0].id
                                 })
 
-                                //console.log(req.session.store.length);
+                                
                                 res.status(200).json({session_id: buff});
-                                //res.redirect('/home')
+                              
                             });
         
                     }
@@ -88,7 +78,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                     .then(trx.commit)
                     .catch(trx.rollback)
         
-                    console.log("something 2");
+                   // console.log("something 2");
             }
             )
                 .catch(err => {
