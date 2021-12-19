@@ -60,6 +60,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+console.log("Everything fine");
 app.use(session(
     {
         name: SESS_NAME,
