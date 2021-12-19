@@ -68,15 +68,16 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                                     //concat()
                                     var chose = 'insert into user_sessions where (session_id, expired, user_id) values(' + random_string + ',' + ' false,( select id from users where id = ' + user[0].id.toString() + '));'
 
-                                    const sub_query = trx.select('user_id').from('users').where()
-                                    trx('user_sessions').insert({
+                                    //const sub_query = trx.select('user_id').from('users').where()
+                                    return trx('user_sessions').insert({
                                         session_id: random_string,
                                         expired: false,
                                         user_id: ( trx.select('user_id').from('users').where('user_id','=',user[0].id))
                                     })
                                 })
                                 //trx.raw(chose);
-                                return console.log("inside transaction this has worked too");
+                                // console.log("inside transaction this has worked too");
+                                // return trx;
                             });
 
 
@@ -100,9 +101,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                     });
 
             }
-            )
-                .then(trx.commit)
-                .catch(trx.rollback)
+            ).then(trx.commit).catch(trx.rollback)
 
             // console.log("something 2");
         }
