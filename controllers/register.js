@@ -24,7 +24,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
         })
         .catch(err => {
             flag = false;
-            return res.status(400).json({
+            res.status(400).json({
                 emailExists: true
             })
         })
