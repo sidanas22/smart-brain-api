@@ -1,7 +1,7 @@
 const uuid = require('uuid');
 const handleSignin = (db, bcrypt, crypto) => (req, res) => {
 
-
+    var uid;
     const { email, password } = req.body;
     if (!email || !password) {
         return res.status(400).json({loginError: true});
@@ -20,18 +20,18 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                             .where('email', '=', email)
                             .then(user => {
 
-                                var buff= uuid.v4();
+                                uid= uuid.v4();
                                 // crypto.randomBytes(16, (err, buf) => {
                                 //     if (err) throw err;
                                 //     buff = buf.toString('hex');
                                 //  });
 
                                 db('user_sessions').insert({
-                                    session_id : buff,
+                                    session_id : uid,
                                     expired: false,
                                     user_id: user[0].id
                                 }).then(
-                                    res.status(200).json({ret_session_id: buff})
+                                    res.status(200).json({ret_session_id: uid})
                                 )
                                 .catch(err =>
                                     {
