@@ -65,7 +65,7 @@ const handleRegister = (req, res, db, bcrypt, store) => {
                                 //     console.log("Message of the error is!");
                                 //     console.log(err.message);
                                 // })
-                                console.log(store.length);
+                                console.log(req.session.store.length);
                                 res.status(200).send("Login successful");
                                 //res.redirect('/home')
                             });
