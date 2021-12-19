@@ -21,7 +21,7 @@ const redirect_signin = (req, res, next) => {
     }
 }
 
-module.exports({
+module.exports={
     redirect_signin,
     redicrect_home
-})
+};
