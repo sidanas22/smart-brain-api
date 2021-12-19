@@ -57,7 +57,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                             })
                             .then(user => {
 
-                                var random_string = '';
+                                random_string = '';
                                 crypto.randomBytes(16, (err, buf) => {
                                     if (err) throw err;
 
