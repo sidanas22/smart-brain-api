@@ -1,27 +1,28 @@
 //const session = require('express-session');
 
+const session = require("express-session");
+
 
 const handleRegister = (req, res, db, bcrypt, crypto) => {
     //res.send("signing in");
-    const { email, name, password, role ,web_view } = req.body;
-    if(!email || !name || !password)
-    {
-       return res.status(400).json('incorrect form submission');
+    const { email, name, password, role, web_view } = req.body;
+    if (!email || !name || !password) {
+        return res.status(400).json('incorrect form submission');
     }
 
     var flag = false;
     var hash_password;
 
-    db.select('*').from('login').where('email',email)
-    .then(data => {
-        flag = true;
-    })
-    .catch(err =>{
-        flag = false;
-        return res.status(409).json({
-            emailExists: true
+    db.select('*').from('login').where('email', email)
+        .then(data => {
+            flag = true;
         })
-    })
+        .catch(err => {
+            flag = false;
+            return res.status(409).json({
+                emailExists: true
+            })
+        })
 
     console.log("before hash function");
 
@@ -39,7 +40,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                         {
                             hash: hash_password,
                             email: email,
-                           
+
                         }
                     )
                     .into('login')
@@ -55,36 +56,40 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                                 web_view: role == 0 //retursn true if role is 0
                             })
                             .then(user => {
-                                
+
                                 var random_string;
                                 crypto.randomBytes(16, (err, buf) => {
                                     if (err) throw err;
 
                                     random_string = buf.toString('hex');
-                                 });
+                                });
 
-                                db('user_sessions').insert({
-                                    session_id : buff,
+                                return db('user_sessions').returning('session_id').insert({
+                                    session_id: buff,
                                     expired: false,
-                                    user_id: int(user[0].id)
-                                })
+                                    user_id: user[0].id
+                                }).then((session_data) => {
+                                    console.data("Session ID: ", session_data);
+                                }
 
-                                
-                                return 
-                              
+                                );
+
+
+
+
                             });
-        
+
                     }
                     )
                     .then(trx.commit)
                     .catch(trx.rollback)
-        
-                   // console.log("something 2");
+
+                // console.log("something 2");
             }
             )
                 .catch(err => {
-                    some_message= "error is :"+err.message 
-                    res.status(400).json( err.message);
+                    some_message = "error is :" + err.message
+                    res.status(400).json(err.message);
                 }
                 )
 
