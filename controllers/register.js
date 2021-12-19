@@ -66,33 +66,33 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                                     random_string = buf.toString('hex');
                                     console.log(random_string);
                                     //concat()
-                                    var chose = 'insert into user_sessions where (session_id, expired, user_id) values(' +random_string+','+ ' false,( select id from users where id = '+ user[0].id.toString()+'));'
-                                    
+                                    var chose = 'insert into user_sessions where (session_id, expired, user_id) values(' + random_string + ',' + ' false,( select id from users where id = ' + user[0].id.toString() + '));'
+
                                     const sub_query = trx.select('user_id').from('users').where()
                                     trx('user_sessions').insert({
                                         session_id: random_string,
-                                        expired: false
-                                    }).select('user_id').from('users').where('user_id','=',user[0].id).then(dat => {
-                                        trx('user_session').insert({ user_id})
+                                        expired: false,
+                                        user_id: ( trx.select('user_id').from('users').where('user_id','=',user[0].id))
                                     })
-                                    //trx.raw(chose);
-                                    return console.log("inside transaction this has worked too");
-                                });
+                                })
+                                //trx.raw(chose);
+                                return console.log("inside transaction this has worked too");
+                            });
 
-                                
 
-                                
-                                // db('user_sessions').returning('session_id').insert({
-                                //     session_id: random_string,
-                                //     expired: false,
-                                //     //user_id: 
-                                // }).then((session_data) => {
-                                //     db('users')
-                                //     db.select('id').from('users').insetr()where('id','=', user[0].id)
-                                // //     console.data("Session ID: ", session_data);
-                                // // }
 
-                                // );
+
+                        // db('user_sessions').returning('session_id').insert({
+                        //     session_id: random_string,
+                        //     expired: false,
+                        //     //user_id: 
+                        // }).then((session_data) => {
+                        //     db('users')
+                        //     db.select('id').from('users').insetr()where('id','=', user[0].id)
+                        // //     console.data("Session ID: ", session_data);
+                        // // }
+
+                        // );
 
 
 
