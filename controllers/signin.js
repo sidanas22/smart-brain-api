@@ -35,7 +35,7 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                                 )
                                 .catch(err =>
                                     {
-                                        console.log(err.message);
+                                        console.log("This is the error: ", err.message);
                                     })
 
                                 
