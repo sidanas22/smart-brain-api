@@ -65,7 +65,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                                 });
 
                                 return db('user_sessions').returning('session_id').insert({
-                                    session_id: buff,
+                                    session_id: random_string,
                                     expired: false,
                                     user_id: user[0].id
                                 }).then((session_data) => {

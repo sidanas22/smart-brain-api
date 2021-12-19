@@ -19,7 +19,7 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                             .where('email', '=', email)
                             .then(user => {
 
-                                var buff;
+                                var buff="";
                                 crypto.randomBytes(16, (err, buf) => {
                                     if (err) throw err;
                                     buff = buf.toString('hex');
