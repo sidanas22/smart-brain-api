@@ -1,6 +1,7 @@
 //const session = require('express-session');
 
-const handleRegister = (req, res, db, bcrypt, store) => {
+
+const handleRegister = (req, res, db, bcrypt, crypto) => {
     //res.send("signing in");
     const { email, name, password, role ,web_view } = req.body;
     if(!email || !name || !password)
@@ -55,25 +56,30 @@ const handleRegister = (req, res, db, bcrypt, store) => {
                             })
                             .then(user => {
                                 //res.json(user[0]);
-                                console.log("The user id is : ", user[0].id);
-                                console.log(req.session);
-                                req.session.userId = user[0].id;
-                                console.log("This is happening");
-                                console.log("When registered. User Id is ", req.session.userId);
-                                console.log("When registered Session Id is ", req.session.id);
+                                //console.log("The user id is : ", user[0].id);
+                                //console.log(req.session);
+                                //req.session.userId = user[0].id;
+                                //console.log("This is happening");
+                                //console.log("When registered. User Id is ", req.session.userId);
+                                //console.log("When registered Session Id is ", req.session.id);
                                 // store.set(req.session.id, req.session,(err)=>{
                                 //     console.log("Message of the error is!");
                                 //     console.log(err.message);
                                 // })
+                                var buff;
+                                crypto.randomBytes(16, (err, buf) => {
+                                    if (err) throw err;
+                                    buff = buf.toString('hex');
+                                 });
 
                                 db('user_sessions').insert({
-                                    session_id : req.session.id,
+                                    session_id : buff,
                                     expired: false,
-                                    user_id: req.session.userId
+                                    user_id: user[0].id
                                 })
 
                                 //console.log(req.session.store.length);
-                                res.status(200).send("Login successful");
+                                res.status(200).json({session_id: buff});
                                 //res.redirect('/home')
                             });
         
@@ -97,41 +103,7 @@ const handleRegister = (req, res, db, bcrypt, store) => {
 
     console.log("after hash function");
 
-    // db.transaction(trx => {
-    //     console.log("we are here");
-    //     trx.insert
-    //         (
-    //             {
-    //                 hash: hash_password,
-    //                 email: email,
-    //             }
-    //         )
-    //         .into('login')
-    //         .returning('email')
-    //         .then(loginemail => {
-    //             console.log("inside transaction this has worked");
-    //             return trx('users').returning('*')
-    //                 .insert({
-    //                     email: loginemail[0],
-    //                     name: name,
-    //                     joined: new Date()
-    //                 })
-    //                 .then(user => {
-    //                     res.json(user[0]);
-    //                 });
 
-    //         }
-    //         )
-    //         .then(trx.commit)
-    //         .catch(trx.rollback)
-
-    //         console.log("something 2");
-    // }
-    // )
-    //     .catch(err => {
-    //         res.status(400).json( err.message);
-    //     }
-    //     )
 
 }
 

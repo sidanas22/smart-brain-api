@@ -18,7 +18,7 @@ const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 
 //middleware
-const { redirect_home, redirect_signin } = require('./middleware/redirects');
+const { redirect_home, redirect_signin, redirect_root } = require('./middleware/redirects');
 
 // const THIRTY_MIN = 1000 * 60 * 30
 
@@ -87,26 +87,27 @@ app.use(session(
 
 
 
-app.get('/', redirect_home, (req, res) => {
+app.get('/', (req,res,next)=>{ redirect_root(req,res,next,db) }, (req, res) => {
 
     res.json({
         connectionEstablished: true
     });
 })
 
-app.get('/home',redirect_signin ,(req,res)=> {
+app.get('/home',(req, res, next) => {redirect_signin(req,res, next, db)} ,(req,res)=> {
     res.send("This is the homepage");
 })
 
 
-app.put('/image', (req, res, db) => { image.handleImage(req, res, db) })
+// app.put('/image', (req, res, db) => { image.handleImage(req, res, db) })
 
-app.get('/profile/:id', (req, res) => { profile.handleProfileGet(req, res, db) })
+// app.get('/profile/:id', (req, res) => { profile.handleProfileGet(req, res, db) })
 
 //curried func use
-app.post('/signin', redirect_home, signin.handleSignin(db, bcrypt))
+app.post('/signin', (req,res, next)=> {redirect_home(req,res,next,db) }, signin.handleSignin(db, bcrypt,crypto))
 
-app.post('/register', redirect_home, (req, res) => { register.handleRegister(req, res, db, bcrypt, store); })
+app.post('/register', (req,res, next)=>
+{redirect_home(req,res,next,db)}, (req, res) => { register.handleRegister(req, res, db, bcrypt, crypto) })
 
 app.post('/logout', logout.handle_logout);
 

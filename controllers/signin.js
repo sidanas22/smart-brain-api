@@ -1,4 +1,4 @@
-const handleSignin = (db, bcrypt) => (req, res) => {
+const handleSignin = (db, bcrypt, crypto) => (req, res) => {
 
 
     const { email, password } = req.body;
@@ -19,11 +19,26 @@ const handleSignin = (db, bcrypt) => (req, res) => {
                             .where('email', '=', email)
                             .then(user => {
 
-                                res.session.userID = user[0].id;
-                                console.log("Hey Hey Hey:", typeof (user[0].id));
-                                console.log("When logging in. User Id is ", req.user.id);
-                                console.log("When logging in Session Id is ", req.session.id);
-                                res.redirect('/home');
+                                var buff;
+                                crypto.randomBytes(16, (err, buf) => {
+                                    if (err) throw err;
+                                    buff = buf.toString('hex');
+                                 });
+
+                                db('user_sessions').insert({
+                                    session_id : buff,
+                                    expired: false,
+                                    user_id: user[0].id
+                                })
+
+                                //console.log(req.session.store.length);
+                                res.status(200).json({session_id: buff});
+                                
+                                res.json({
+                                    session_id : 
+
+                                })
+                               
 
                             })
                             .catch(err => {
