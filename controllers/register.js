@@ -44,7 +44,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                     )
                     .into('login')
                     .returning('email')
-                    .then(loginemail => {
+                    .then(function (loginemail) {
                         console.log("inside transaction this has worked");
                         return trx('users').returning('*')
                             .insert({
@@ -56,20 +56,21 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                             })
                             .then(user => {
                                 
-                                var buff;
+                                var random_string;
                                 crypto.randomBytes(16, (err, buf) => {
                                     if (err) throw err;
-                                    buff = buf.toString('hex');
+
+                                    random_string = buf.toString('hex');
                                  });
 
                                 db('user_sessions').insert({
                                     session_id : buff,
                                     expired: false,
-                                    user_id: user[0].id
+                                    user_id: int(user[0].id)
                                 })
 
                                 
-                                res.status(200).json({session_id: buff});
+                                return 
                               
                             });
         
