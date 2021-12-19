@@ -8,7 +8,7 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
     }
 
 
-
+console.log("THIS IS TRUE");
     db.select('email', 'hash').from('login').where('email', '=', email)
         .then(data => {
             bcrypt.compare(password, data[0].hash)
@@ -25,13 +25,15 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                                 //     if (err) throw err;
                                 //     buff = buf.toString('hex');
                                 //  });
+                                console.log(uid);
+                                console.log(user[0].id);
 
                                 db('user_sessions').insert({
                                     session_id : uid,
                                     expired: false,
                                     user_id: user[0].id
-                                }).then(
-                                    res.status(200).json({ret_session_id: uid})
+                                }).then( success =>{
+                                   return res.status(200).json({ret_session_id: uid})}
                                 )
                                 .catch(err =>
                                     {
