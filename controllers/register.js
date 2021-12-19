@@ -1,4 +1,4 @@
-const session = require('express-session');
+//const session = require('express-session');
 
 const handleRegister = (req, res, db, bcrypt) => {
     //res.send("signing in");
@@ -56,8 +56,8 @@ const handleRegister = (req, res, db, bcrypt) => {
                             .then(user => {
                                 //res.json(user[0]);
                                 console.log("The user id is : ", user[0].id);
-                                console.log(res.session);
-                                res.session.userId = user[0].id;
+                                console.log(req.session);
+                                req.session.userId = user[0].id;
                                 console.log("This is happening");
                                 console.log("When registered. User Id is ", req.session.user.id);
                                 console.log("When registered Session Id is ", req.session.id);

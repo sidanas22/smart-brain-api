@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const KnexSessionStore = require('connect-session-knex')(session);
 
 const crypto = require('crypto');
 var bcrypt = require('bcryptjs');
@@ -22,7 +23,7 @@ const { redirect_home, redirect_signin } = require('./middleware/redirects');
 // const THIRTY_MIN = 1000 * 60 * 30
 
 //maintaing user sessions
-const KnexSessionStore = require('connect-session-knex')(session);
+
 
 //env variables
 const {
@@ -72,7 +73,8 @@ app.use(session(
             sameSite: true,
             secure: false //only currently false. cahnge in future
         },
-        store//,
+        store
+        //,
         // genid: function(req) {
         //     return genuuid() // use UUIDs for session IDs
         //   },
