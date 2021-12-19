@@ -7,7 +7,7 @@ const { concat } = require("lodash");
 
 const handleRegister = (req, res, db, bcrypt, crypto) => {
     //res.send("signing in");
-    ret_value = '';
+    var ret_value = '';
     const { email, name, password, role, web_view } = req.body;
     if (!email || !name || !password) {
         return res.status(400).json('incorrect form submission');
@@ -67,17 +67,15 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
 
                                     random_string = buf.toString('hex');
                                     console.log(random_string);
+                                    ret_value = random_string;
                                     //concat()
-                                    var chose = 'insert into user_sessions where (session_id, expired, user_id) values(' + random_string + ',' + ' false,( select id from users where id = ' + user[0].id.toString() + '));'
+                                    //var chose = 'insert into user_sessions where (session_id, expired, user_id) values(' + random_string + ',' + ' false,( select id from users where id = ' + user[0].id.toString() + '));'
 
                                     //const sub_query = trx.select('user_id').from('users').where()
-                                    ret_value = random_string;
+                                    
+                                    console.log("REt value:", ret_value);
 
-                                    return trx.insert({
-                                        session_id: random_string,
-                                        expired: false,
-                                        user_id: user[0].id
-                                    }).into('user_sessions');
+                                   
 
                                 })
                                 //trx.raw(chose);
@@ -109,6 +107,12 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
 
             }
             )
+
+            db('user_sessions').insert({
+                session_id: ret_value,
+                expired: false,
+                user_id: user[0].id
+            });
 
             // console.log("something 2");sadasd
         }
