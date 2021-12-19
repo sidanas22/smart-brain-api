@@ -18,13 +18,13 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
     var flag = false;
     var hash_password;
 
-    db.select('*').from('login').where('email', email)
+    db.select('*').from('login').where('email','=', email)
         .then(data => {
             flag = true;
         })
         .catch(err => {
             flag = false;
-            return res.status(409).json({
+            return res.status(400).json({
                 emailExists: true
             })
         })
