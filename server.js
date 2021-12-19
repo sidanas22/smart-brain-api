@@ -27,7 +27,7 @@ const KnexSessionStore = require('connect-session-knex')(session);
 
 //env variables
 const {
-    SESS_LIFETIME,
+    SESS_LIFETIME = THIRTY_MIN,
     SESS_NAME,
     SESS_SECRET
 } = process.env;
@@ -60,7 +60,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
-console.log("Everything fine");
+
 app.use(session(
     {
         name: SESS_NAME,
