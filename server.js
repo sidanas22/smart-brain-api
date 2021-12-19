@@ -18,7 +18,7 @@ const image = require('./controllers/image');
 //middleware
 const { redirect_home, redirect_signin } = require('./middleware/redirects');
 
-const THIRTY_MIN = 1000 * 60 * 30
+// const THIRTY_MIN = 1000 * 60 * 30
 
 //maintaing user sessions
 const session = require('express-session');
@@ -27,7 +27,7 @@ const KnexSessionStore = require('connect-session-knex')(session);
 
 //env variables
 const {
-    SESS_LIFETIME = THIRTY_MIN,
+    SESS_LIFETIME = 1800000,
     SESS_NAME,
     SESS_SECRET
 } = process.env;
@@ -69,7 +69,7 @@ app.use(session(
         saveUninitialized: false,
         secret: SESS_SECRET,
         cookie: {
-            maxAge: SESS_LIFETIME,
+            maxAge: 1800000,
             sameSite: true,
             secure: false //only currently false. cahnge in future
         },
