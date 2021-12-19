@@ -53,8 +53,8 @@ const handleRegister = (req, res, db, bcrypt) => {
                             })
                             .then(user => {
                                 //res.json(user[0]);
-                                res.session.userID = user[0].id;
-                                console.log("When registered. User Id is ", req.user.id);
+                                res.session.user.id = user[0].id;
+                                console.log("When registered. User Id is ", req.session.user.id);
                                 console.log("When registered Session Id is ", req.session.id);
                                 res.status(200);
                                 res.redirect('/home')
