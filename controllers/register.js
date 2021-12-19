@@ -64,6 +64,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                                     if (err) throw err;
 
                                     random_string = buf.toString('hex');
+                                    console.log(random_string);
                                     //concat()
                                     var chose = 'insert into user_sessions where (session_id, expired, user_id) values(' +random_string+','+ ' false,( select id from users where id = '+ user[0].id.toString()+'));'
     
