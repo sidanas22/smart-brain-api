@@ -1,3 +1,4 @@
+const uuid = require('uuid');
 const handleSignin = (db, bcrypt, crypto) => (req, res) => {
 
 
@@ -19,17 +20,19 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                             .where('email', '=', email)
                             .then(user => {
 
-                                var buff="";
-                                crypto.randomBytes(16, (err, buf) => {
-                                    if (err) throw err;
-                                    buff = buf.toString('hex');
-                                 });
+                                var buff= uuid.v4();
+                                // crypto.randomBytes(16, (err, buf) => {
+                                //     if (err) throw err;
+                                //     buff = buf.toString('hex');
+                                //  });
 
                                 db('user_sessions').insert({
                                     session_id : buff,
                                     expired: false,
                                     user_id: user[0].id
-                                }).then(console.log("success in creating user session for signin route"))
+                                }).then(
+                                    res.status(200).json({ret_session_id: buff})
+                                )
                                 .catch(err =>
                                     {
                                         console.log(err.message);
@@ -37,25 +40,25 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
 
                                 
                                 
-                                res.status(200).json({session_id: buff});
+                                //res.status(200).json({session_id: buff});
                                
 
                             })
                             .catch(err => {
-                                res.status(400).json('cannot get user');
+                                res.status(400).json({loginError : true});
                             })
                     }
 
                     else {
-                        res.status(400).json("Your Email or Password was incorrect.");
+                        return res.status(400).json({loginError : true});
                     }
 
                 })
                 .catch(err => {
-                    res.status(400).json("Your Email or Password was incorrect.");
+                    return res.status(400).json({loginError : true});
                 });
         }
-        ).catch(err => { res.status(400).json("Your Email or Password was incorrect.") })
+        ).catch(err => { return res.status(400).json({loginError : true}) })
 }
 
 module.exports = {

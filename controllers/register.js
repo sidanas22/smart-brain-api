@@ -75,7 +75,7 @@ if(!flag){
                                     expired: false,
                                     user_id: uid
                                 }).then(success =>{
-                                    res.status(200).json({ret_value})
+                                    res.status(200).json({ret_session_id : ret_value})
                                 }).catch(err =>{
                                     res.send("could not save into database");
                                 });
