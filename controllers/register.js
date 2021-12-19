@@ -51,6 +51,9 @@ if(!flag){
                     )
                     .into('login')
                     .returning('email')
+                    .catch(err => {
+                        return res.status(400).json({ emailExists: true})
+                    })
                     .then(function (loginemail) {
                         console.log("inside transaction this has worked");
                         return trx('users').returning('*')
