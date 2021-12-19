@@ -75,12 +75,13 @@ app.use(session(
             sameSite: true,
             secure: false //only currently false. cahnge in future
         },
-        store
+        store: store
         //,
         // genid: function(req) {
         //     return genuuid() // use UUIDs for session IDs
         //   },
     }
+   
 ));
 
 
