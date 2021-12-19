@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 
 const crypto = require('crypto');
 var bcrypt = require('bcryptjs');
@@ -21,8 +22,6 @@ const { redirect_home, redirect_signin } = require('./middleware/redirects');
 // const THIRTY_MIN = 1000 * 60 * 30
 
 //maintaing user sessions
-const session = require('express-session');
-const { cookie } = require('express/lib/response');
 const KnexSessionStore = require('connect-session-knex')(session);
 
 //env variables
