@@ -66,8 +66,10 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                                     random_string = buf.toString('hex');
                                     //concat()
                                     var chose = 'insert into user_sessions where (session_id, expired, user_id) values(' +random_string+','+ ' false,( select id from users where id = '+ user[0].id.toString()+'));'
-                                    console.log("inside transaction this has worked too");
-                                    return trx.raw(chose);
+    
+                                     
+                                    trx.raw(chose);
+                                    return console.log("inside transaction this has worked too");
                                 });
 
                                 
