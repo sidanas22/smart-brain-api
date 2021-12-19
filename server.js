@@ -16,7 +16,7 @@ const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 
 //middleware
-const { redirect_home, redirect_signin } = require('./middleware/redirects';)
+const { redirect_home, redirect_signin } = require('./middleware/redirects');
 
 const THIRTY_MIN = 1000 * 60 * 30
 
