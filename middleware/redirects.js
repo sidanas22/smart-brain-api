@@ -1,4 +1,4 @@
-const redicrect_home = (req, res, next) => {
+const redirect_home = (req, res, next) => {
     if (req.session.userID) {
 
         console.log("When redirecting to home: User Id is ", req.user.id);
