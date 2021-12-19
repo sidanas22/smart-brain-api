@@ -60,7 +60,7 @@ const handleRegister = (req, res, db, bcrypt) => {
                                 req.session.userId = user[0].id;
                                 console.log("This is happening");
                                 console.log("When registered. User Id is ", req.session.userId);
-                                console.log("When registered Session Id is ", req.sessionId);
+                                console.log("When registered Session Id is ", req.session.id);
                                 res.status(200);
                                 res.redirect('/home')
                             });
