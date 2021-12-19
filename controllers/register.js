@@ -114,7 +114,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
             )
 
     });
-});
+// });
 
 
 console.log("after hash function");
