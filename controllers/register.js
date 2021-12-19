@@ -31,7 +31,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
         })
 
     console.log("before hash function");
-
+if(!flag){
     bcrypt.genSalt(10, function (err, salt) {
         bcrypt.hash(password, salt, function (err, hash) {
             hash_password = hash;
@@ -135,7 +135,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
         //     }
         //     )
 
-    });
+    });}
     // });
 
    // res.status(200).send(ret_value)
