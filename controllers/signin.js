@@ -1,6 +1,6 @@
 const uuid = require('uuid');
 const handleSignin = (db, bcrypt, crypto) => (req, res) => {
-
+console.log("reaching here");
     var uid;
     const { email, password } = req.body;
     if (!email || !password) {
