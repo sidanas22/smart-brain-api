@@ -70,19 +70,22 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                                     var chose = 'insert into user_sessions where (session_id, expired, user_id) values(' + random_string + ',' + ' false,( select id from users where id = ' + user[0].id.toString() + '));'
 
                                     //const sub_query = trx.select('user_id').from('users').where()
+                                   
+
                                     return trx('user_sessions').insert({
                                         session_id: random_string,
                                         expired: false,
                                         user_id : user[0].id
-                                    })
+                                    }).then(success => {  res.status(200).json({
+                                        random_string: random_string
+                                    }) })
+                                    
                                 })
                                 //trx.raw(chose);
                                 // console.log("inside transaction this has worked too");
                                 // return trx;
 
-                                res.status(200).json({
-                                    random_string: random_string
-                                })
+                                
                             });
 
 
