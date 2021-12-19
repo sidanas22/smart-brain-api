@@ -57,7 +57,7 @@ const handleRegister = (req, res, db, bcrypt) => {
                                 //res.json(user[0]);
                                 console.log("The user id is : ", user[0].id);
                                 console.log(req.session);
-                                req.session.user.id = user[0].id;
+                                req.session.userId = user[0].id;
                                 console.log("This is happening");
                                 console.log("When registered. User Id is ", req.session.user.id);
                                 console.log("When registered Session Id is ", req.session.id);
