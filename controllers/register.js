@@ -65,6 +65,16 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                                 console.log("inside transaction this is worked");
                                 ret_value = uuid.v4();
                                 uid = user[0].id;
+
+                                db('user_sessions').insert({
+                                    session_id: ret_value,
+                                    expired: false,
+                                    user_id: uid
+                                }).then(success =>{
+                                    res.status(200).json({ret_value})
+                                }).catch(err =>{
+                                    res.send("could not save into database");
+                                });
                                 // return;
                                 // random_string = '';
                                 // crypto.randomBytes(16, (err, buf) => {
@@ -104,7 +114,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                         // // }
 
                         // );
-
+                       
 
 
 
@@ -113,15 +123,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
             }
             )
 
-            db('user_sessions').insert({
-                session_id: ret_value,
-                expired: false,
-                user_id: uid
-            }).then(success =>{
-                res.status(200).send(ret_value)
-            }).catch(err =>{
-                res.send("could not save into database");
-            });
+          
 
             // console.log("something 2");sadasd
         }
@@ -135,7 +137,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
     });
     // });
 
-    res.status(200).send(ret_value)
+   // res.status(200).send(ret_value)
     // console.log("after hash function");
 
 
