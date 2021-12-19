@@ -104,7 +104,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
             }
             )
 
-            // console.log("something 2");
+            // console.log("something 2");sadasd
         }
         )
         //.catch(err => {
