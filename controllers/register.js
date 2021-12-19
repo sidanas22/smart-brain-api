@@ -1,6 +1,6 @@
 //const session = require('express-session');
 
-const session = require("express-session");
+//const session = require("express-session");
 const uuid = require('uuid');
 const { concat } = require("lodash");
 //const Promise = require('bluebird');
@@ -8,7 +8,7 @@ const { concat } = require("lodash");
 
 const handleRegister = (req, res, db, bcrypt, crypto) => {
     //res.send("signing in");
-    let ret_value = '';
+    var ret_value = '';
     var uid;
     const { email, name, password, role, web_view } = req.body;
     if (!email || !name || !password) {
@@ -65,7 +65,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                                 console.log("inside transaction this is worked");
                                 ret_value = uuid.v4();
                                 uid = user[0].id;
-                                return;
+                                // return;
                                 // random_string = '';
                                 // crypto.randomBytes(16, (err, buf) => {
                                 //     if (err) throw err;
@@ -116,7 +116,11 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
             db('user_sessions').insert({
                 session_id: ret_value,
                 expired: false,
-                user_id: user[0].id
+                user_id: uid
+            }).then(success =>{
+                res.status(200).send(ret_value)
+            }).catch(err =>{
+                res.send("could not save into database");
             });
 
             // console.log("something 2");sadasd
@@ -131,10 +135,8 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
     });
     // });
 
-    res.status(200).json({
-        ret_value: ret_value
-    })
-    console.log("after hash function");
+    res.status(200).send(ret_value)
+    // console.log("after hash function");
 
 
 
