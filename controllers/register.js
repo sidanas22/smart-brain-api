@@ -7,6 +7,7 @@ const { concat } = require("lodash");
 
 const handleRegister = (req, res, db, bcrypt, crypto) => {
     //res.send("signing in");
+    ret_value='';
     const { email, name, password, role, web_view } = req.body;
     if (!email || !name || !password) {
         return res.status(400).json('incorrect form submission');
@@ -70,10 +71,8 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                                     var chose = 'insert into user_sessions where (session_id, expired, user_id) values(' + random_string + ',' + ' false,( select id from users where id = ' + user[0].id.toString() + '));'
 
                                     //const sub_query = trx.select('user_id').from('users').where()
-                                    res.status(200).json({
-                                        random_string: random_string
-                                    })
-
+                                   ret_value = random_string;
+                                   
                                     return trx('user_sessions').insert({
                                         session_id: random_string,
                                         expired: false,
@@ -123,7 +122,9 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
     });
     // });
 
-
+    res.status(200).json({
+        ret_value: ret_value
+    })
     console.log("after hash function");
 
 
