@@ -1,6 +1,7 @@
 //const session = require('express-session');
 
 const session = require("express-session");
+const { concat } = require("lodash");
 
 
 const handleRegister = (req, res, db, bcrypt, crypto) => {
@@ -57,13 +58,16 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                             })
                             .then(user => {
 
+                                console.log("inside transaction this is worked");
                                 random_string = '';
                                 crypto.randomBytes(16, (err, buf) => {
                                     if (err) throw err;
 
                                     random_string = buf.toString('hex');
+                                    //concat()
                                     var chose = 'insert into user_sessions where (session_id, expired, user_id) values(' +random_string+','+ ' false,( select id from users where id = '+ user[0].id.toString()+'));'
-                                return trx.raw(chose);
+                                    console.log("inside transaction this has worked too");
+                                    return trx.raw(chose);
                                 });
 
                                 
