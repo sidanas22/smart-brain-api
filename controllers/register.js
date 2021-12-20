@@ -138,7 +138,7 @@ const handleRegisterdetail = (req, res, db) => {
                     //   })
 
 
-                    trx('users').where('id', '=', data[0]).update({
+                    trx('users').where('id', '=', data[0].user_id).update({
                         name: name,
                         lastname: lastname,
                     })
