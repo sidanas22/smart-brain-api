@@ -11,12 +11,12 @@ const redirect_root = (req, res, next, db) => {
                 res.redirect('/home');
             })
             .catch(err => {
-                res.status(200).json({ bogged_out: true });
+                res.status(200).json({ logged_in: false });
             })
     }
 
     else {
-        return res.status(200).json({ logged_out: true });
+        return res.status(200).json({ logged_in: false });
 
 
     }
@@ -24,7 +24,7 @@ const redirect_root = (req, res, next, db) => {
 
 }
 
-const redirect_home = (req, res, next, db) => {
+const redirect_for_sigin = (req, res, next, db) => {
 
     if (req.body.session_id) {
         return db('user_sessions').where({
@@ -35,7 +35,37 @@ const redirect_home = (req, res, next, db) => {
             .then(data => {
                 //console.log(data);
                 return res.status(200).json({
-                    logged_out: false
+                    logged_in: true
+                })
+                //res.redirect('/home');
+            })
+            .catch(err => {
+                return next();
+
+            })
+    }
+
+    else {
+        return next()
+
+    }
+
+
+
+}
+
+const redirect_for_register = (req, res, next, db) => {
+
+    if (req.body.session_id) {
+        return db('user_sessions').where({
+            expired: false,
+            session_id: req.body.session_id,
+
+        }).select('session_id')
+            .then(data => {
+                //console.log(data);
+                return res.status(200).json({
+                    alredyRegisterd: true
                 })
                 //res.redirect('/home');
             })
@@ -82,6 +112,7 @@ const redirect_signin = (req, res, next, db) => {
 
 module.exports = {
     redirect_signin,
-    redirect_home,
+    redirect_for_register,
+    redirect_for_sigin,
     redirect_root
 };

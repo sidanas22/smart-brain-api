@@ -34,7 +34,9 @@ console.log("THIS IS TRUE");
                                     expired: false,
                                     user_id: user[0].id
                                 }).then( success =>{
-                                   return res.status(200).json({ret_session_id: uid});
+                                   return res.status(200).json({ret_session_id: uid,
+                                logged_in: true
+                                });
                                 }
                                 )
                                 .catch(err =>

@@ -19,7 +19,8 @@ const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 
 //middleware
-const { redirect_home, redirect_signin, redirect_root } = require('./middleware/redirects');
+const { redirect_for_register,
+    redirect_for_sigin, redirect_signin, redirect_root } = require('./middleware/redirects');
 
 
 
@@ -58,14 +59,14 @@ app.use(cors());
 
 
 
-app.get('/', (req,res,next)=>{ redirect_root(req,res,next,db) }, (req, res) => {
+app.get('/', (req, res, next) => { redirect_root(req, res, next, db) }, (req, res) => {
 
     res.json({
         connectionEstablished: true
     });
 })
 
-app.get('/home'/*,(req, res, next) => {redirect_signin(req,res, next, db)}*/ ,(req,res)=> {
+app.get('/home'/*,(req, res, next) => {redirect_signin(req,res, next, db)}*/, (req, res) => {
     res.send("This is the homepage");
 })
 
@@ -75,14 +76,13 @@ app.get('/home'/*,(req, res, next) => {redirect_signin(req,res, next, db)}*/ ,(r
 // app.get('/profile/:id', (req, res) => { profile.handleProfileGet(req, res, db) })
 
 //curried func use
-app.post('/signin', (req,res, next)=> {redirect_home(req,res,next,db) }, signin.handleSignin(db, bcrypt,crypto))
+app.post('/signin', (req, res, next) => { redirect_for_sigin(req, res, next, db) }, signin.handleSignin(db, bcrypt, crypto))
 
-app.post('/register', (req,res, next)=>
-{redirect_home(req,res,next,db)}, (req, res) => { register.handleRegister(req, res, db, bcrypt, crypto) })
+app.post('/register', (req, res, next) => { redirect_for_register(req, res, next, db) }, (req, res) => { register.handleRegister(req, res, db, bcrypt, crypto) })
 
 app.post('/registerdetail', (req, res) => { register.handleRegisterdetail(req, res, db) })
 
-app.post('/logout', (req, res)=>{ logout.handle_logout(req, res, db)});
+app.post('/logout', (req, res) => { logout.handle_logout(req, res, db) });
 
 app.listen(process.env.PORT || 3000, () => {
     console.log(`app is running on port ${process.env.PORT}`);
