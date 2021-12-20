@@ -165,7 +165,7 @@ const handleRegisterdetail = (req, res, db) => {
 
 };
 
-handleRegisterdetail(req, res, db, bcrypt, crypto)
+
 module.exports = {
     handleRegister: handleRegister,
     handleRegisterdetail: handleRegisterdetail
