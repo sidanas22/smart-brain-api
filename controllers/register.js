@@ -129,17 +129,19 @@ const handleRegisterdetail = (req, res, db) => {
 
                 db.transaction(trx => {
 
-                    trx.insert
-                        (
-                            {
-                                name: name,
-                                lastname: lastname,
+
+                    //                     knex('books')
+                    //   .where('published_date', '<', 2000)
+                    //   .update({
+                    //     status: 'archived',
+                    //     thisKeyIsSkipped: undefined
+                    //   })
 
 
-                            }
-                        )
-                        .into('users')
-                        .where('id', '=', data[0])
+                    trx('users').where('id', '=', data[0]).update({
+                        name: name,
+                        lastname: lastname,
+                    })
                         .catch(err => {
                             return res.status(400).json({ error: err.message });
                         })
@@ -157,7 +159,7 @@ const handleRegisterdetail = (req, res, db) => {
             })
         .catch(err => {
             return res.json({
-                sessionExists : false
+                sessionExists: false
             })
 
         })
