@@ -82,7 +82,7 @@ app.post('/register', (req, res, next) => { redirect_for_register(req, res, next
 
 app.post('/registerdetail', (req, res) => { register.handleRegisterdetail(req, res, db) })
 
-app.post('/logout', (req, res) => { logout.handle_logout(req, res, db) });
+app.post('/logout',(req,res,next)=>{ logout.redirect_for_logout(req,res,db,next) } ,(req, res) => { logout.handle_logout(req, res, db) });
 
 app.listen(process.env.PORT || 3000, () => {
     console.log(`app is running on port ${process.env.PORT}`);
