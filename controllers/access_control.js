@@ -28,7 +28,7 @@ const handle_access_control = (req, res, db) => {
 
                                  
                                     return trx('users')
-                                        .where('id','=', target_id[0].user_id)
+                                        .where('id','=', target_user_id)
                                         .update(
                                             {
                                                 roles: new_val
