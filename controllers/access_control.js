@@ -66,7 +66,7 @@ const handle_access_control = (req, res, db) => {
                             else{
                                 return res.status(400).json({
                                     valueUpdated2_5: false,
-                                    error : "some_condition_failed"
+                                    error : "no_privelege"
                                 })
                             }
                         })
