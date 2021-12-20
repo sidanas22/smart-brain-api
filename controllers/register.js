@@ -62,7 +62,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                                     name: "default_name",
                                     joined: new Date(),
                                     roles: 0,
-                                    web_view: role != 10 //false for student role
+                                    web_view: role != 5 && role != 0 //false for student role
                                 })
                                 .then(user => {
 
