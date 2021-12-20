@@ -1,6 +1,4 @@
-//const session = require('express-session');
 
-//const session = require("express-session");
 const uuid = require('uuid');
 const { concat } = require("lodash");
 const session = require('express-session');
@@ -108,7 +106,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
 
 
 
-}
+};
 
 const handleRegisterdetail = (req, res, db) => {
 
@@ -165,7 +163,7 @@ const handleRegisterdetail = (req, res, db) => {
         })
 
 
-}
+};
 
 handleRegisterdetail(req, res, db, bcrypt, crypto)
 module.exports = {
