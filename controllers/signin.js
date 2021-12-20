@@ -42,7 +42,7 @@ console.log("THIS IS TRUE");
                                 .catch(err =>
                                     {
                                         //cannot be logged in from diff devices
-                                        return res.status(200).json({ret_session_id: uid,
+                                        return res.status(200).json({
                                             loginError: true
                                             });
                                     })
