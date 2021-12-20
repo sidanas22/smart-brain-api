@@ -19,21 +19,20 @@ const handle_access_control = (req, res, db) => {
                    return db.select('roles').from('users').where('id', '=', target_user_id)
                         .then(target_id => {
 
-                            if (my_role >= target_id[0].id && my_role >= 20 && new_val <= my_role ) {
+                            if (my_role >= target_id[0].user_id && my_role >= 20 && new_val <= my_role ) {
                                 //////////////////////////////////
                                 return db.transaction(function (trx) {
 
                                  
                                     return trx('users')
-                                        .where('id','=', target_id[0].id)
+                                        .where('id','=', target_id[0].user_id)
                                         .update(
                                             {
                                                 roles: new_val
                                             }
                                         )
                                         .then(function (ids) {
-                                            // books.forEach((book) => book.catalogue_id = ids[0]);
-                                            //return trx('books').insert(books);
+                                            
                                             return res.status(200).json({
                                                 valueUpdated: true
                                             })
@@ -90,12 +89,12 @@ const handle_access_control = (req, res, db) => {
         .catch(err => {
             
             
-            // return res.status(400).json({
-            //     valueUpdated: false,
-            //     error : err.message
-            // })
+            return res.status(400).json({
+                valueUpdated: false,
+                error : err.message
+            })
 
-            return res.json("not ")
+         
 
 
          })
