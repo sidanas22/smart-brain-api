@@ -9,6 +9,7 @@ const redirect_for_logout = (req, res, db, next) =>{
 
    return db.select('session_id').from('user_sessions').where('session_id', '=', req.body.session_id)
         .then(success => {
+            console.log("success haha!")
             return next();
         } )
         .catch(err => {
