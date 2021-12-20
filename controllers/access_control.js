@@ -4,15 +4,15 @@ const handle_access_control = (req, res, db) => {
     const { session_id, user_id, new_val } = req.body;
 
 
-    db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
-        .then(user_id => {
+    db.select('user_id','roles').from('user_sessions').where('session_id', '=', session_id)
+        .then(user => {
 
-            console.log(user_id);
+            console.log(user[0]);
 
             //////////////////////////////////
             // db.transaction(function (trx) {
 
-
+            //         trx.select('roles')
 
             //     return trx
             //         .insert({ name: 'Old Books' }, 'id')
