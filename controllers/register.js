@@ -112,7 +112,7 @@ const handleRegisterdetail = (req, res, db) => {
 
     var ret_value = '';
 
-    const { name, lastname, session_id, role } = req.body;
+    const { name, lastname, session_id } = req.body;
 
 
 
