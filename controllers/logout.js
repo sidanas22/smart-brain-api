@@ -5,7 +5,11 @@ const express = require('express');
 
 const handle_logout = (req, res, db) => {
     //console.log("When logging out. User Id is ", req.user.id);
+    if(req.body.session_id)
+    {
     flag = false;
+
+
     console.log("When logging out Session Id is ", req.body.session_id);
 
     db.transaction(function (trx) {
@@ -25,6 +29,12 @@ const handle_logout = (req, res, db) => {
     if (flag) {
         return res.status(200).json({ logged_out: false });
     }
+}
+
+else{
+    return res.status(400).json({ logged_in: true})
+}
+
 }
 
 module.exports = {
