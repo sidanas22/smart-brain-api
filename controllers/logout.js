@@ -3,7 +3,7 @@ const express = require('express');
 
 //const { decodeBase64 } = require("bcryptjs");
 
-const handle_logout = (req, res) => {
+const handle_logout = (req, res, db) => {
     //console.log("When logging out. User Id is ", req.user.id);
     console.log("When logging out Session Id is ", req.body.session_id);
     
@@ -24,5 +24,5 @@ const handle_logout = (req, res) => {
 }
 
 module.exports={
-    handle_logout
+    handle_logout: handle_logout
 }

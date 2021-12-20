@@ -80,7 +80,7 @@ app.post('/signin', (req,res, next)=> {redirect_home(req,res,next,db) }, signin.
 app.post('/register', (req,res, next)=>
 {redirect_home(req,res,next,db)}, (req, res) => { register.handleRegister(req, res, db, bcrypt, crypto) })
 
-app.post('/logout', logout.handle_logout);
+app.post('/logout', (req, res)=>{ logout.handle_logout(req, res, db)});
 
 app.listen(process.env.PORT || 3000, () => {
     console.log(`app is running on port ${process.env.PORT}`);
