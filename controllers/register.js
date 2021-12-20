@@ -3,16 +3,18 @@
 //const session = require("express-session");
 const uuid = require('uuid');
 const { concat } = require("lodash");
+const session = require('express-session');
+const { json } = require('express/lib/response');
 //const Promise = require('bluebird');
-
+const role = 0;
 
 const handleRegister = (req, res, db, bcrypt, crypto) => {
     //res.send("signing in");
     var ret_value = '';
     var uid;
-    const { email, name, password, role, web_view } = req.body;
-    if (!email || !name || !password) {
-        return res.status(400).json('incorrect form submission');
+    const { email, /*name,*/ password/*, role, web_view*/ } = req.body;
+    if (!email || !password) {
+        return res.status(400).json({ incorrect_form: true });
     }
 
     var flag = false;
@@ -27,127 +29,146 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
     //     })
     //     .catch(err => {
     //         flag = false;
-            
+
     //     })
 
     console.log("before hash function");
-if(!flag){
-    bcrypt.genSalt(10, function (err, salt) {
-        bcrypt.hash(password, salt, function (err, hash) {
-            hash_password = hash;
-            console.log("inside hash func");
+    if (!flag) {
+        bcrypt.genSalt(10, function (err, salt) {
+            bcrypt.hash(password, salt, function (err, hash) {
+                hash_password = hash;
+                console.log("inside hash func");
 
-            //start
+                //start
 
-            db.transaction(trx => {
-                console.log("we are here");
-                trx.insert
-                    (
-                        {
-                            hash: hash_password,
-                            email: email,
+                db.transaction(trx => {
+                    console.log("we are here");
+                    trx.insert
+                        (
+                            {
+                                hash: hash_password,
+                                email: email,
 
-                        }
-                    )
-                    .into('login')
-                    .returning('email')
-                    .catch(err => {
-                        return res.status(400).json({ emailExists: true})
-                    })
-                    .then(function (loginemail) {
-                        console.log("inside transaction this has worked");
-                        return trx('users').returning('*')
-                            .insert({
-                                email: loginemail[0],
-                                name: name,
-                                joined: new Date(),
-                                roles: role,
-                                web_view: role == 0 //retursn true if role is 0
-                            })
-                            .then(user => {
+                            }
+                        )
+                        .into('login')
+                        .returning('email')
+                        .catch(err => {
+                            return res.status(400).json({ emailExists: true })
+                        })
+                        .then(function (loginemail) {
+                            console.log("inside transaction this has worked");
+                            return trx('users').returning('*')
+                                .insert({
+                                    email: loginemail[0],
+                                    name: "default_name",
+                                    joined: new Date(),
+                                    roles: 0,
+                                    web_view: role != 10 //false for student role
+                                })
+                                .then(user => {
 
-                                console.log("inside transaction this is worked");
-                                ret_value = uuid.v4();
-                                uid = user[0].id;
+                                    console.log("inside transaction this is worked");
+                                    ret_value = uuid.v4();
+                                    uid = user[0].id;
 
-                                db('user_sessions').insert({
-                                    session_id: ret_value,
-                                    expired: false,
-                                    user_id: uid
-                                }).then(success =>{
-                                    res.status(200).json({ret_session_id : ret_value})
-                                }).catch(err =>{
-                                    res.send("could not save into database");
+                                    db('user_sessions').insert({
+                                        session_id: ret_value,
+                                        expired: false,
+                                        user_id: uid
+                                    }).then(success => {
+                                        res.status(200).json({
+                                            ret_session_id: ret_value,
+                                            isRegistered: true
+                                        })
+                                    }).catch(err => {
+                                        res.send("could not save into database");
+                                    });
+
+
+
                                 });
-                                // return;
-                                // random_string = '';
-                                // crypto.randomBytes(16, (err, buf) => {
-                                //     if (err) throw err;
-
-                                //     random_string = buf.toString('hex');
-                                //     console.log(random_string);
-                                //     ret_value = random_string;
-                                //     //concat()
-                                //     //var chose = 'insert into user_sessions where (session_id, expired, user_id) values(' + random_string + ',' + ' false,( select id from users where id = ' + user[0].id.toString() + '));'
-
-                                //     //const sub_query = trx.select('user_id').from('users').where()
-                                    
-                                //     console.log("REt value:", ret_value);
-
-                                   
-
-                                // })
-                                //trx.raw(chose);
-                                // console.log("inside transaction this has worked too");
-                                // return trx;
-
-
-                            });
 
 
 
+                        }).then(trx.commit).catch(trx.rollback);
 
-                        // db('user_sessions').returning('session_id').insert({
-                        //     session_id: random_string,
-                        //     expired: false,
-                        //     //user_id: 
-                        // }).then((session_data) => {
-                        //     db('users')
-                        //     db.select('id').from('users').insetr()where('id','=', user[0].id)
-                        // //     console.data("Session ID: ", session_data);
-                        // // }
-
-                        // );
-                       
+                }
+                )
 
 
 
-                    }).then(trx.commit).catch(trx.rollback);
-
+                // console.log("something 2");sadasd
             }
             )
 
-          
 
-            // console.log("something 2");sadasd
-        }
-        )
-        //.catch(err => {
-        //         some_message = "error is :" + err.message
-        //         res.status(400).json(err.message);
-        //     }
-        //     )
-
-    });}
-    // });
-
-   // res.status(200).send(ret_value)
-    // console.log("after hash function");
+        });
+    }
 
 
 
 }
 
+const handleRegisterdetail = (req, res, db) => {
+
+    var ret_value = '';
+
+    const { name, lastname, session_id, role } = req.body;
+
+
+
+    var flag = false;
+
+
+    return db.select('user_id')
+        .from('user_sessions')
+        .where('session_id', '=', session_id)
+        .then(
+            data => {
+                flag = true;
+                console.log(data);
+
+                db.transaction(trx => {
+
+                    trx.insert
+                        (
+                            {
+                                name: name,
+                                lastname: lastname,
+
+
+                            }
+                        )
+                        .into('users')
+                        .where('id', '=', data[0])
+                        .catch(err => {
+                            return res.status(400).json({ error: err.message });
+                        })
+                        .then(function (some_data) {
+                            return res.status(200).json({
+                                detailsRegistered: true
+                            })
+                        })
+                        .then(trx.commit)
+                        .catch(trx.rollback);
+
+                }
+                )
+
+            })
+        .catch(err => {
+            return res.json({
+                sessionExists : false
+            })
+
+        })
+
+
+}
+
+handleRegisterdetail(req, res, db, bcrypt, crypto)
 module.exports = {
-    handleRegister: handleRegister
+    handleRegister: handleRegister,
+    handleRegisterdetail: handleRegisterdetail
 }

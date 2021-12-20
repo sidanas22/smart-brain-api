@@ -65,7 +65,7 @@ app.get('/', (req,res,next)=>{ redirect_root(req,res,next,db) }, (req, res) => {
     });
 })
 
-app.get('/home',(req, res, next) => {redirect_signin(req,res, next, db)} ,(req,res)=> {
+app.get('/home'/*,(req, res, next) => {redirect_signin(req,res, next, db)}*/ ,(req,res)=> {
     res.send("This is the homepage");
 })
 
@@ -79,6 +79,8 @@ app.post('/signin', (req,res, next)=> {redirect_home(req,res,next,db) }, signin.
 
 app.post('/register', (req,res, next)=>
 {redirect_home(req,res,next,db)}, (req, res) => { register.handleRegister(req, res, db, bcrypt, crypto) })
+
+app.post('/registerdetail', (req, res) => { register.handleRegisterdetail(req, res, db) })
 
 app.post('/logout', (req, res)=>{ logout.handle_logout(req, res, db)});
 
