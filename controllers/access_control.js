@@ -7,7 +7,7 @@ const handle_access_control = (req, res, db) => {
    return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
         .then(user_id => {
 
-            console.log(user_id[0]);
+            //console.log(user_id[0]);
 
             
 
@@ -18,6 +18,9 @@ const handle_access_control = (req, res, db) => {
 
                    return db.select('roles').from('users').where('id', '=', target_user_id)
                         .then(target_id => {
+
+                            console.log(" The target id is: ", target_id);
+                            console.log("My role is ", my_role)
 
                             if (my_role >= target_id[0].user_id && my_role >= 20 && new_val <= my_role ) {
                                 //////////////////////////////////
