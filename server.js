@@ -18,10 +18,12 @@ const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 const access_control = require('./controllers/access_control');
+const events = require('./controllers/events');
 
 //middleware
 const { redirect_for_register,
     redirect_for_sigin, redirect_signin, redirect_root } = require('./middleware/redirects');
+const { Events } = require('pg');
 
 
 
@@ -86,6 +88,8 @@ app.post('/registerdetail', (req, res) => { register.handleRegisterdetail(req, r
 app.post('/logout'/*,(req,res,next)=>{ logout.redirect_for_logout(req,res,db,next) }*/ ,(req, res) => { logout.handle_logout(req, res, db) });
 
 app.post('/accesscontrol' ,(req, res) => { access_control.handle_access_control(req, res, db) });
+
+app.post('/create-event', (req, res) => { events.handleCreateEvent(req,res,db) });
 
 app.listen(process.env.PORT || 3000, () => {
     console.log(`app is running on port ${process.env.PORT}`);
