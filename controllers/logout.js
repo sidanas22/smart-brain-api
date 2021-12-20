@@ -14,6 +14,7 @@ const handle_logout = (req, res, db) => {
             .then(console.log)
             .catch(err => {
                 flag2 = true;
+                console.log("error!!");
             })
 
         if (flag2) {
