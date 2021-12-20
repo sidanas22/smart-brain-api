@@ -14,7 +14,7 @@ const handle_access_control = (req, res, db) => {
             return db.select('roles').from('users').where('id', '=', user_id[0].user_id)
                 .then(role => {
                     //role[0].roles
-                    var my_role = role[o].roles;
+                    var my_role = role[0].roles;
 
                    return db.select('roles').from('users').where('id', '=', target_user_id)
                         .then(target_id => {
