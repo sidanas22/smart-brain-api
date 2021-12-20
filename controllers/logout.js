@@ -32,7 +32,7 @@ const handle_logout = (req, res, db) => {
 }
 
 else{
-    return res.status(400).json({ logged_in: true})
+    return res.status(400).json({ logged_in: false})
 }
 
 }
