@@ -39,19 +39,19 @@ const handle_access_control = (req, res, db) => {
                                         })
                                         .catch( err => {
                                             return res.status(400).json({
-                                                valueUpdated: false,
+                                                valueUpdated5: false,
                                                 error : err.message
                                             })  
                                         });
                                 })
                                     .then(function (inserts) {
                                         return res.status(200).json({
-                                            valueUpdated: true
+                                            valueUpdated4: true
                                         })
                                     })
                                     .catch(function (error) {
                                         return res.status(400).json({
-                                            valueUpdated: false,
+                                            valueUpdated3: false,
                                             error : err.message
                                         })
                                         console.error(error);
@@ -66,7 +66,7 @@ const handle_access_control = (req, res, db) => {
                         })
                         .catch(err => {
                             return res.status(400).json({
-                                valueUpdated: false,
+                                valueUpdated2: false,
                                 error : err.message
                             })
                         })
@@ -79,7 +79,7 @@ const handle_access_control = (req, res, db) => {
                 })
                 .catch(err => {
                     return res.status(400).json({
-                        valueUpdated: false,
+                        valueUpdated1: false,
                         error : err.message
                     })
                 })
@@ -90,12 +90,9 @@ const handle_access_control = (req, res, db) => {
             
             
             return res.status(400).json({
-                valueUpdated: false,
+                valueUpdated0: false,
                 error : err.message
             })
-
-         
-
 
          })
 }
