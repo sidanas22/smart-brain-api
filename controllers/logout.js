@@ -10,7 +10,7 @@ const handle_logout = (req, res, db) => {
         flag = false;
         flag2 = false;
 
-        db('user_sessions').select('session_id').where('session_id', '=', req.body.session_id)
+        db.select('session_id').from('user_sessions').where('session_id', '=', req.body.session_id)
             .then(console.log)
             .catch(err => {
                 flag2 = true;
@@ -36,6 +36,9 @@ const handle_logout = (req, res, db) => {
 
                 })
                 .catch((err) => { flag = false; trx.rollback(); res.status(200).json({ logged_out: false }); });
+        })
+        .catch(err => {
+            console.log("Error is :", err.message);
         });
 
         //db('user_sessions').where('session_id', req.body.session_id).del();
