@@ -11,18 +11,18 @@ const handle_logout = (req, res, db) => {
         flag2 = false;
         console.log("Hello!");
 
-        db.select('session_id').from('user_sessions').where('session_id', '=', req.body.session_id)
-            .then(console.log)
-            .catch(err => {
-                flag2 = true;
-                console.log("error!!");
-            })
+        // db.select('session_id').from('user_sessions').where('session_id', '=', req.body.session_id)
+        //     .then(console.log)
+        //     .catch(err => {
+        //         flag2 = true;
+        //         console.log("error!!");
+        //     })
 
-        if (flag2) {
-            return res.json({
-                logged_in: false
-            })
-        }
+        // if (flag2) {
+        //     return res.json({
+        //         logged_in: false
+        //     })
+        // }
 
 
         console.log("When logging out Session Id is ", req.body.session_id);
