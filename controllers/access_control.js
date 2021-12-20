@@ -64,7 +64,10 @@ const handle_access_control = (req, res, db) => {
                             }
 
                             else{
-                                return res.json("not allowed for current role")
+                                return res.status(400).json({
+                                    valueUpdated2_5: false,
+                                    error : "some_condition_failed"
+                                })
                             }
                         })
                         .catch(err => {
