@@ -9,6 +9,7 @@ const handle_logout = (req, res, db) => {
 
         flag = false;
         flag2 = false;
+        console.log("Hello!");
 
         db.select('session_id').from('user_sessions').where('session_id', '=', req.body.session_id)
             .then(console.log)
