@@ -88,10 +88,16 @@ const handle_access_control = (req, res, db) => {
 
         })
         .catch(err => {
-            return res.status(400).json({
-                valueUpdated: false,
-                error : err.message
-            })
+            
+            
+            // return res.status(400).json({
+            //     valueUpdated: false,
+            //     error : err.message
+            // })
+
+            return res.json("not ")
+
+
         })
 }
 
