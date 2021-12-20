@@ -72,7 +72,8 @@ const redirect_signin = (req, res, next, db) => {
             })
     }
     else {
-        return res.status(200).json({ logged_out: true });
+        //return res.status(200).json({ logged_out: true });
+       return res.send("error here is");
     }
 
 }
