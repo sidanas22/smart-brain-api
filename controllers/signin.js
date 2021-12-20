@@ -1,10 +1,11 @@
 const uuid = require('uuid');
+const express = require('express');
 const handleSignin = (db, bcrypt, crypto) => (req, res) => {
 console.log("reaching here");
     var uid;
     const { email, password } = req.body;
     if (!email || !password) {
-        return res.status(400).json({loginError: true});
+        return res.status(400).json("email or password missing");
     }
 
 
@@ -33,7 +34,8 @@ console.log("THIS IS TRUE");
                                     expired: false,
                                     user_id: user[0].id
                                 }).then( success =>{
-                                   return res.status(200).json({ret_session_id: uid})}
+                                   return res.status(200).json({ret_session_id: uid});
+                                }
                                 )
                                 .catch(err =>
                                     {

@@ -1,4 +1,4 @@
-//const { append } = require("express/lib/response")
+const { append } = require("express/lib/response")
 
 const { decodeBase64 } = require("bcryptjs");
 
