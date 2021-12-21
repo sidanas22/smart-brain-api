@@ -13,7 +13,7 @@
 // }
 
 const handleCreateEvent = (req, res, db) => {
-
+    console.log("hello");
     const {
         session_id,
         event_name,
@@ -34,7 +34,7 @@ const handleCreateEvent = (req, res, db) => {
         .then(user => {
             if (user[0].user_id >= auth_role[1]) {
 
-
+                console.log("helloworld");
                 return db('event').insert({
                     event_name: event_name,
                     event_start_date: event_start_date,
@@ -47,11 +47,11 @@ const handleCreateEvent = (req, res, db) => {
                     event_description: event_description,
                     event_head: user[0].user_id
                 })
-                .catch(err => {
-                    return res.status(400).json({ error: err.message });
-                })
+                    .catch(err => {
+                        return res.status(400).json({ error: err.message });
+                    })
 
-               
+
 
 
             }
