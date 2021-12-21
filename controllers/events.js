@@ -63,3 +63,7 @@ const handleCreateEvent = (req, res, db) => {
             error: err.message
         })
 } 
+
+module.exports = {
+    handleCreateEvent
+}
