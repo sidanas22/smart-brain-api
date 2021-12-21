@@ -23,12 +23,11 @@ const handleCreateEvent = (req, res, db) => {
         event_start_time_period,
         event_end_time,
         event_end_time_period,
-        //event_head,
         event_venue,
         event_description
 
 
-    } = res.body;
+    } = req.body;
 
     const min_auth_role = [60, 50];
 
