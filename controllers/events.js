@@ -29,7 +29,7 @@ const handleCreateEvent = (req, res, db) => {
 
     } = req.body;
 
-    const min_auth_role = [60, 50];
+    const auth_role = [60, 50];
 
     return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
         .then(user => {
