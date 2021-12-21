@@ -26,7 +26,6 @@ const handleCreateEvent = (req, res, db) => {
         event_venue,
         event_description
 
-
     } = req.body;
 
     const auth_role = [60, 50];
@@ -52,29 +51,7 @@ const handleCreateEvent = (req, res, db) => {
                     return res.status(400).json({ error: err.message });
                 })
 
-                // db.select('event_id',)
-                // .from('event').where(
-                //     {
-                //         event_venue: event_venue_s,
-                //         event_start_date: event_start_date_s
-                //     } 
-                //     )
-                // .then( event => {
-
-                //     //if exists
-
-                //     if(event)
-                //     {
-                //           db.select('event_venue','=',)  
-                //     }
-                //     else
-                //     {
-
-                //     }
-                // })
-                // .catch(err => {
-                //     return res.status(400).json({error: err.message});
-                // })
+               
 
 
             }
