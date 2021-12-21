@@ -38,10 +38,10 @@ const handleCreateEvent = (req, res, db) => {
                 db.select('event_venue')
                 .from('event').where('event_venue','=', event_venue )
                 .then( event => {
-                    console.log(event.event_venue);
+                    return console.log(event.event_venue);
                 })
                 .catch(err => {
-                    console.log( "we are okay to go");
+                    return console.log( "we are okay to go");
                 })
                 
                 //if ()
@@ -59,7 +59,7 @@ const handleCreateEvent = (req, res, db) => {
         })
         .catch(err => {
             
-            error: err.message
+            return res.json({error: err.message});
         })
 } 
 

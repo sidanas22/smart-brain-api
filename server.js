@@ -18,7 +18,7 @@ const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 const access_control = require('./controllers/access_control');
-const events = require('./controllers/events');
+const event_s = require('./controllers/events');
 
 //middleware
 const { redirect_for_register,
@@ -89,7 +89,7 @@ app.post('/logout'/*,(req,res,next)=>{ logout.redirect_for_logout(req,res,db,nex
 
 app.post('/accesscontrol' ,(req, res) => { access_control.handle_access_control(req, res, db) });
 
-app.post('/create-event', (req, res) => { events.handleCreateEvent(req,res,db) });
+app.post('/create-event', (req, res) => { event_s.handleCreateEvent(req,res,db) });
 
 app.listen(process.env.PORT || 3000, () => {
     console.log(`app is running on port ${process.env.PORT}`);
