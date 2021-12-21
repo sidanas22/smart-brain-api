@@ -19,6 +19,7 @@ const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 const access_control = require('./controllers/access_control');
 const event_s = require('./controllers/events');
+const induction = require('./controllers/induction');
 
 //middleware
 const { redirect_for_register,
@@ -82,9 +83,12 @@ app.post('/registerdetail', (req, res) => { register.handleRegisterdetail(req, r
 
 app.post('/logout'/*,(req,res,next)=>{ logout.redirect_for_logout(req,res,db,next) }*/ ,(req, res) => { logout.handle_logout(req, res, db) });
 
+//have to update this
 app.post('/accesscontrol' ,(req, res) => { access_control.handle_access_control(req, res, db) });
 
 app.post('/create-event', (req, res) => { event_s.handleCreateEvent(req,res,db) });
+
+app.post('/create-induction', (req,res) => { induction.handleCreateInduction(req, res, db) })
 
 app.listen(process.env.PORT || 3000, () => {
     console.log(`app is running on port ${process.env.PORT}`);
