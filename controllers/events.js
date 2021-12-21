@@ -12,6 +12,47 @@
 //     "event_description": "DETAILS OF EVENT"
 // }
 
-const handleCreateEvent = (req,res,db) => {
-    
+const handleCreateEvent = (req, res, db) => {
+
+    const { session_id,
+
+        event_name,
+        event_start_date,
+        event_end_date,
+        event_start_time, //HH12:MI
+        event_start_time_period,
+        event_end_time,
+        event_end_time_period,
+        //event_head,
+        event_venue,
+        event_description
+
+
+    } = res.body;
+
+    const min_auth_role = [60, 50];
+
+    return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
+        .then(user => {
+            if (user[0].user_id >= auth_role[1] ) {
+                
+                db.select('')
+                
+                //if ()
+                // return db.insert({
+
+                // })
+            }
+
+            else{
+                return res.json({
+                    hasAuthority : false
+                })
+            }
+
+        })
+        .catch(err => {
+            
+            error: err.message
+        })
 } 
