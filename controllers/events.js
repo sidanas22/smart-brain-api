@@ -13,7 +13,7 @@
 // }
 
 const handleCreateEvent = (req, res, db) => {
-    console.log("hello");
+
     const {
         session_id,
         event_name,
@@ -47,12 +47,12 @@ const handleCreateEvent = (req, res, db) => {
                     event_description: event_description,
                     event_head: user[0].user_id
                 })
+                    .then(success => {
+                        return res.status(200).json({ eventCreated: true });
+                    })
                     .catch(err => {
                         return res.status(400).json({ error: err.message });
                     })
-
-
-
 
             }
 
