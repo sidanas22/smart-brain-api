@@ -36,7 +36,14 @@ const handleCreateEvent = (req, res, db) => {
         .then(user => {
             if (user[0].user_id >= auth_role[1] ) {
                 
-                db.select('')
+                db.select('event_venue')
+                .from('event').where('event_venue','=', event_venue )
+                .then( event => {
+                    console.log(event.event_venue);
+                })
+                .catch(err => {
+                    console.log( "we are okay to go");
+                })
                 
                 //if ()
                 // return db.insert({
