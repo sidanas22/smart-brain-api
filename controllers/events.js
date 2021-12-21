@@ -33,35 +33,64 @@ const handleCreateEvent = (req, res, db) => {
 
     return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
         .then(user => {
-            if (user[0].user_id >= auth_role[1] ) {
-                
-                db.select('event_venue')
-                .from('event').where('event_venue','=', event_venue )
-                .then( event => {
-                    return console.log(event.event_venue);
+            if (user[0].user_id >= auth_role[1]) {
+
+
+                return db('event').insert({
+                    event_name: event_name,
+                    event_start_date: event_start_date,
+                    event_end_date: event_end_date,
+                    event_start_time: event_start_time,
+                    event_start_time_period: event_start_time_period,
+                    event_end_time: event_end_time,
+                    event_end_time_period: event_end_time_period,
+                    event_venue: event_venue,
+                    event_description: event_description,
+                    event_head: user[0].user_id
                 })
                 .catch(err => {
-                    return console.log( "we are okay to go");
+                    return res.status(400).json({ error: err.message });
                 })
-                
-                //if ()
-                // return db.insert({
 
+                // db.select('event_id',)
+                // .from('event').where(
+                //     {
+                //         event_venue: event_venue_s,
+                //         event_start_date: event_start_date_s
+                //     } 
+                //     )
+                // .then( event => {
+
+                //     //if exists
+
+                //     if(event)
+                //     {
+                //           db.select('event_venue','=',)  
+                //     }
+                //     else
+                //     {
+
+                //     }
                 // })
+                // .catch(err => {
+                //     return res.status(400).json({error: err.message});
+                // })
+
+
             }
 
-            else{
+            else {
                 return res.json({
-                    hasAuthority : false
+                    hasAuthority: false
                 })
             }
 
         })
         .catch(err => {
-            
-            return res.json({error: err.message});
+
+            return res.status(400).json({ error: err.message });
         })
-} 
+}
 
 module.exports = {
     handleCreateEvent
