@@ -74,11 +74,6 @@ app.get('/home'/*,(req, res, next) => {redirect_signin(req,res, next, db)}*/, (r
 })
 
 
-// app.put('/image', (req, res, db) => { image.handleImage(req, res, db) })
-
-// app.get('/profile/:id', (req, res) => { profile.handleProfileGet(req, res, db) })
-
-//curried func use
 app.post('/signin', (req, res, next) => { redirect_for_sigin(req, res, next, db) }, signin.handleSignin(db, bcrypt, crypto))
 
 app.post('/register', (req, res, next) => { redirect_for_register(req, res, next, db) }, (req, res) => { register.handleRegister(req, res, db, bcrypt, crypto) })
