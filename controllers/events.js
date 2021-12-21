@@ -14,8 +14,8 @@
 
 const handleCreateEvent = (req, res, db) => {
 
-    const { session_id,
-
+    const {
+        session_id,
         event_name,
         event_start_date,
         event_end_date,
