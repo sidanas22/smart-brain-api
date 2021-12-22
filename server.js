@@ -93,6 +93,8 @@ app.post('/create-induction', (req,res) => { induction.handleCreateInduction(req
 
 app.post('/approve-induction', (req,res) => { induction.handleApproveInduction(req, res, db) })
 
+app.post('/approve-induction-response', (req,res) =>{ induction.ApproveInductionResponse(req, res,db)})
+
 
 
 
