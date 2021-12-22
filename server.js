@@ -90,6 +90,12 @@ app.post('/create-event', (req, res) => { event_s.handleCreateEvent(req,res,db) 
 
 app.post('/create-induction', (req,res) => { induction.handleCreateInduction(req, res, db) })
 
+
+app.post('/approve-induction', (req,res) => { induction.handleApproveInduction(req, res, db) })
+
+
+
+
 app.listen(process.env.PORT || 3000, () => {
     console.log(`app is running on port ${process.env.PORT}`);
 })

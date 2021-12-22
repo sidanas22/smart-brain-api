@@ -12,7 +12,8 @@
 const express = require("express")
 
 
-
+//only for president
+//show how many have been created
 const handleCreateInduction = (req, res, db) => {
 
     const { session_id,
@@ -35,14 +36,14 @@ const handleCreateInduction = (req, res, db) => {
                     title: title,
                     induction_type_excom: induction_type_excom,
                     society_id: society_id,
-                    dept_list: JSON.stringify( dept_list)
+                    dept_list: JSON.stringify(dept_list)
 
 
                 }
             )
                 .returning('*')
                 .then(success => {
-                    console.log("Something needed: ",success);
+                    console.log("Something needed: ", success);
                     return res.status(200).json({
                         inductionProposed: true
                     })
@@ -62,6 +63,53 @@ const handleCreateInduction = (req, res, db) => {
         })
 }
 
+//only for faculty
+//show before how many waiting for approval
+const handleApproveInduction = (req, res, db) => {
+
+    const { session_id,
+        id
+    } = req.body
+
+    return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
+        .then(faculty => {
+
+
+
+            return db('induction_template_approval').update(
+                {
+                    aproved: true
+                }
+            )
+                .where(
+                    {
+                        id: id
+                    }
+                )
+                .returning('*')
+                .then(success => {
+                    console.log("Something needed: ", success);
+                    return res.status(200).json({
+                        inductionApproved: true
+                    })
+                })
+                .catch(err => {
+                    return res.status(400).json({
+                        inductionApproved: false,
+                        error: err.message
+                    });
+                })
+        })
+        .catch(err => {
+            return res.status(400).json({
+                inductionApproved: false
+                , error: err.message
+            });
+        })
+
+}
+
 module.exports = {
-    handleCreateInduction
+    handleCreateInduction,
+    handleApproveInduction
 }
