@@ -40,7 +40,9 @@ const redirect_for_sigin = (req, res, next, db) => {
                 //res.redirect('/home');
             })
             .catch(err => {
-                return next();
+                return res.status(400).json({
+                    error: err.messaage
+                })
 
             })
     }
