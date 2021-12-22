@@ -70,6 +70,7 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
 
                 })
                 .catch(err => {
+                    console.log("The error 02",err);
                     return res.status(400).json({ loginError: true ,
                     error: err.message});
                 });
