@@ -57,9 +57,11 @@ const db = knex;
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
 
-
+app.use(cors({
+    origin: '*'
+}));
 
 
 
@@ -98,6 +100,7 @@ app.post('/approve-induction-response', (req,res) =>{ induction.ApproveInduction
 app.post('/get-upcoming-inductions-events', (req,res) =>{ induction.handleGetUpcomingEventsInductions(req, res,db)})
 
 app.post('/get-inductions-data', (req,res) =>{ induction.GetInductionsData(req, res,db)});
+
 
 
 app.listen(process.env.PORT || 3000, () => {
