@@ -273,7 +273,7 @@ const ApproveInductionResponse = (req, res, db) => {
                     .returning('*')
                     .then(success => {
                         console.log("Something needed: ", success);
-                        //
+                        // //
 
                         // if (induction_type_excom) {
 
@@ -514,6 +514,7 @@ const GetInductionsData = (req, res, db) => {
                      dept_name: dept_name,
                      batch : batch,
                      cgpa: cgpa,
+                     user_id : user[0].user_id,
                      status: false
 
                 })
