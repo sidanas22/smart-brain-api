@@ -409,7 +409,7 @@ const handleGetUpcomingEventsInductions = (req, res, db) => {
             .andWhere(function () {
                 this.where('event_start_date', '>',now_date)
             })
-            .then(induction_list => {
+            .then(event_list => {
                 res.status(200).json({
                     event_list: event_list
                 })
