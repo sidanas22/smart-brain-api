@@ -10,7 +10,7 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
 
 
     console.log("THIS IS TRUE");
-    db.select('email', 'hash').from('login').where('email', '=', email)
+    return db.select('email', 'hash').from('login').where('email', '=', email)
         .then(data => {
             bcrypt.compare(password, data[0].hash)
                 .then(result => {
@@ -26,8 +26,8 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                                 //     if (err) throw err;
                                 //     buff = buf.toString('hex');
                                 //  });
-                                console.log(uid);
-                                console.log(user[0].id);
+                                // console.log(uid);
+                                // console.log(user[0].id);
 
                                 db('user_sessions').insert({
                                     session_id: uid,
@@ -42,7 +42,7 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                                 )
                                     .catch(err => {
                                         //cannot be logged in from diff devices
-                                        return res.status(200).json({
+                                        return res.status(400).json({
                                             loginError: true
                                             , error: err.message
                                         });
