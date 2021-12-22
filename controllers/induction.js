@@ -117,8 +117,7 @@ const handleApproveInduction = (req, res, db) => {
             })
     }
 
-    else 
-    {
+    else {
         return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
             .then(faculty => {
 
@@ -127,7 +126,7 @@ const handleApproveInduction = (req, res, db) => {
                 return db('induction_template_approval').
                     where(
                         {
-                           id: id
+                            id: id
                         }
                     ).del()
                     .then(success => {
@@ -226,6 +225,21 @@ const handleApproveInduction = (req, res, db) => {
 // );
 
 
+
+
+
+
+// create table excom (
+// 	roles int,
+// 	user_id int unique not null primary key,
+// 	society_id int not null,
+// 	dept_name varchar(100),
+// 	foreign key (society_id) references societies (id) on delete cascade,
+// 	foreign key (user_id) references users (id) on delete cascade
+// 	);
+
+
+
 //for president
 const ApproveInductionResponse = (req, res, db) => {
 
@@ -259,6 +273,18 @@ const ApproveInductionResponse = (req, res, db) => {
                     .returning('*')
                     .then(success => {
                         console.log("Something needed: ", success);
+                        //
+
+                        // if (induction_type_excom) {
+
+                        //     return db.select('roles').from('users').where()    // hello world
+
+                        //     db('excom').insert({
+                        //         roles: 
+                        //     })
+
+                        // }
+                        //
                         return res.status(200).json({
                             inductionResponseApproved: true
                         })
@@ -469,9 +495,64 @@ const handleGetUpcomingEventsInductions = (req, res, db) => {
 }
 
 
+const GetInductionsData = (req, res, db) => {
+
+    const { session_id, get_what, society_id, induction_type_excom, id, title, first_name, last_name, email, dept_name, batch, cgpa } = req.body
+    //get user id myself
+    if (get_what == "induction") {
+        return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
+            .then(user => {
+
+                return db('induction_responses').insert({
+                    society_id: society_id,
+                    induction_type_excom: induction_type_excom,
+                    induction_id: id,
+                    title: title, 
+                    first_name: first_name, 
+                    last_name: last_name,
+                    email: email,
+                     dept_name: dept_name,
+                     batch : batch,
+                     cgpa: cgpa,
+                     status: false
+
+                })
+                .then( success=>{
+
+                    res.status(200).json({
+                        induction_entered : true
+                    })
+
+                } )
+                .catch(err => {
+                    res.status(200).json(
+                        {
+                                error: err.message
+                        }
+                    )
+                })
+            })
+            .catch(err =>{
+                res.status(200).json(
+                    {
+                            error: err.message
+                    }
+                )
+            })
+            
+    }
+
+    else if (get_what == "event") {
+
+    
+    }
+}
+
+
 module.exports = {
     handleCreateInduction,
     handleApproveInduction,
     ApproveInductionResponse,
-    handleGetUpcomingEventsInductions
+    handleGetUpcomingEventsInductions,
+    GetInductionsData
 }
