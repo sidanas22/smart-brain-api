@@ -273,8 +273,161 @@ const ApproveInductionResponse = (req, res, db) => {
     }
 }
 
+
+// //for president
+// const ApproveInductionResponse = (req, res, db) => {
+
+//     const { session_id,
+//         society_id,
+//         user_id,
+//         status,
+//         induction_type_excom
+
+//     } = req.body
+
+//     if (status) {
+
+//         return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
+//             .then(faculty => {
+
+
+
+//                 return db('induction_responses').update(
+//                     {
+//                         status: status
+//                     }
+//                 )
+//                     .where(
+//                         {
+//                             society_id: society_id,
+//                             user_id: user_id,
+//                             induction_type_excom: induction_type_excom
+//                         }
+//                     )
+//                     .returning('*')
+//                     .then(success => {
+//                         console.log("Something needed: ", success);
+//                         return res.status(200).json({
+//                             inductionResponseApproved: true
+//                         })
+//                     })
+//                     .catch(err => {
+//                         return res.status(400).json({
+//                             inductionResponseApproved: false,
+//                             error: err.message
+//                         });
+//                     })
+//             })
+//             .catch(err => {
+//                 return res.status(400).json({
+//                     inductionResponseApproved: false
+//                     , error: err.message
+//                 });
+//             })
+//     }
+
+//     else {
+//         return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
+//             .then(faculty => {
+
+
+
+//                 return db('induction_responses').
+//                     where(
+//                         {
+//                             society_id: society_id,
+//                             user_id: user_id,
+//                             induction_type_excom: induction_type_excom
+//                         }
+//                     ).del()
+//                     .then(success => {
+//                         return res.status(200).json({
+//                             inductionResponseApproved: false
+//                         })
+//                     })
+//                     .catch(err => {
+//                         return res.status(400).json({
+
+//                             error: err.message
+//                         });
+//                     })
+
+
+
+//             })
+//             .catch(err => {
+//                 return res.status(400).json({
+
+//                     error: err.message
+//                 });
+//             })
+
+//     }
+// }
+
+const handleGetUpcomingEventsInductions = (req, res, db) => {
+
+    const { session_id, get_what } = req.body
+
+    if (get_what == "induction") {
+        return db.select('*').from('induction_template_approval')
+            .where(
+                {
+                    aproved: true
+                }
+            )
+            .then(induction_list => {
+                res.status(200).json({
+                    induction_list: induction_list
+                })
+
+            })
+            .catch(err => {
+                res.status(400).json({
+                    error: err.message
+                })
+            })
+
+    }
+
+    else if (get_what == "event") {
+
+        const d = new Date();
+
+        month = (d.getMonth() + 1).toString();	// Month	[mm]	(1 - 12)
+        date = d.getDate().toString();		// Day		[dd]	(1 - 31)
+        year = d.getFullYear().toString();
+        var now_date =  year+month+date;
+        console.log("Current date:", now_date);
+
+        return db.select('*').from('event')
+            .where(
+                {
+                    approved: true
+                }
+            )
+            .andWhere(function () {
+                this.where('event_start_date', '>',now_date)
+            })
+            .then(induction_list => {
+                res.status(200).json({
+                    event_list: event_list
+                })
+
+            })
+            .catch(err => {
+                res.status(400).json({
+                    error: err.message
+                })
+            })
+
+    }
+}
+
+
 module.exports = {
     handleCreateInduction,
     handleApproveInduction,
-    ApproveInductionResponse
+    ApproveInductionResponse,
+    handleGetUpcomingEventsInductions
 }

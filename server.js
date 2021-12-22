@@ -95,6 +95,8 @@ app.post('/approve-induction', (req,res) => { induction.handleApproveInduction(r
 
 app.post('/approve-induction-response', (req,res) =>{ induction.ApproveInductionResponse(req, res,db)})
 
+app.post('/get-upcoming-inductions-events', (req,res) =>{ induction.handleGetUpcomingEventsInductions(req, res,db)})
+
 
 
 
