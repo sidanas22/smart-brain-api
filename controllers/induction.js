@@ -78,88 +78,132 @@ const handleApproveInduction = (req, res, db) => {
         status
     } = req.body
 
-    return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
-        .then(faculty => {
+    if (status) {
+
+        return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
+            .then(faculty => {
 
 
 
-            return db('induction_template_approval').update(
-                {
-                    aproved: status
-                }
-            )
-                .where(
+                return db('induction_template_approval').update(
                     {
-                        id: id
+                        aproved: status
                     }
                 )
-                .returning('*')
-                .then(success => {
-                    console.log("Something needed: ", success);
-                    return res.status(200).json({
-                        inductionApproved: status
+                    .where(
+                        {
+                            id: id
+                        }
+                    )
+                    .returning('*')
+                    .then(success => {
+                        console.log("Something needed: ", success);
+                        return res.status(200).json({
+                            inductionApproved: status
+                        })
                     })
-                })
-                .catch(err => {
-                    return res.status(400).json({
-                        inductionApproved: false,
-                        error: err.message
-                    });
-                })
-        })
-        .catch(err => {
-            return res.status(400).json({
-                inductionApproved: false
-                , error: err.message
-            });
-        })
+                    .catch(err => {
+                        return res.status(400).json({
+                            inductionApproved: false,
+                            error: err.message
+                        });
+                    })
+            })
+            .catch(err => {
+                return res.status(400).json({
+                    inductionApproved: false
+                    , error: err.message
+                });
+            })
+    }
 
+    else 
+    {
+        return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
+            .then(faculty => {
+
+
+
+                return db('induction_template_approval').
+                    where(
+                        {
+                           id: id
+                        }
+                    ).del()
+                    .then(success => {
+                        return res.status(200).json({
+                            inductionApproved: false
+                        })
+                    })
+                    .catch(err => {
+                        return res.status(400).json({
+
+                            error: err.message
+                        });
+                    })
+
+
+
+            })
+            .catch(err => {
+                return res.status(400).json({
+
+                    error: err.message
+                });
+            })
+
+    }
 }
 
-//show this to anyone authorized
-const showAllInductions = (req, res, db) => {
+// //show this to anyone authorized
+// const showAllInductions = (req, res, db) => {
 
-    const { session_id,
-        id
-    } = req.body
+//     const { session_id,
+//         id, status
+//     } = req.body
+//     if (status) {
+//         return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
+//             .then(faculty => {
 
-    return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
-        .then(faculty => {
 
 
+//                 return db('induction_template_approval').update(
+//                     {
+//                         aproved: status
+//                     }
+//                 )
+//                     .where(
+//                         {
+//                             id: id
+//                         }
+//                     )
+//                     .returning('*')
+//                     .then(success => {
+//                         console.log("Something needed: ", success);
+//                         return res.status(200).json({
+//                             inductionApproved: status
+//                         })
+//                     })
+//                     .catch(err => {
+//                         return res.status(400).json({
+//                             inductionApproved: false,
+//                             error: err.message
+//                         });
+//                     })
+//             })
+//             .catch(err => {
+//                 return res.status(400).json({
+//                     inductionApproved: false
+//                     , error: err.message
+//                 });
+//             })
+//     }
+//     else{
 
-            return db('induction_template_approval').update(
-                {
-                    aproved: true
-                }
-            )
-                .where(
-                    {
-                        id: id
-                    }
-                )
-                .returning('*')
-                .then(success => {
-                    console.log("Something needed: ", success);
-                    return res.status(200).json({
-                        inductionApproved: true
-                    })
-                })
-                .catch(err => {
-                    return res.status(400).json({
-                        inductionApproved: false,
-                        error: err.message
-                    });
-                })
-        })
-        .catch(err => {
-            return res.status(400).json({
-                inductionApproved: false
-                , error: err.message
-            });
-        })
 
-}
+//     }
+
+// }
 
 
 
@@ -397,7 +441,7 @@ const handleGetUpcomingEventsInductions = (req, res, db) => {
         month = (d.getMonth() + 1).toString();	// Month	[mm]	(1 - 12)
         date = d.getDate().toString();		// Day		[dd]	(1 - 31)
         year = d.getFullYear().toString();
-        var now_date =  year+month+date;
+        var now_date = year + month + date;
         console.log("Current date:", now_date);
 
         return db.select('*').from('event')
@@ -407,7 +451,7 @@ const handleGetUpcomingEventsInductions = (req, res, db) => {
                 }
             )
             .andWhere(function () {
-                this.where('event_start_date', '>',now_date)
+                this.where('event_start_date', '>', now_date)
             })
             .then(event_list => {
                 res.status(200).json({
