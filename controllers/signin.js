@@ -1,7 +1,7 @@
 const uuid = require('uuid');
 const express = require('express');
 const handleSignin = (db, bcrypt, crypto) => (req, res) => {
-console.log("reaching here");
+    console.log("reaching here");
     var uid;
     const { email, password } = req.body;
     if (!email || !password) {
@@ -9,7 +9,7 @@ console.log("reaching here");
     }
 
 
-console.log("THIS IS TRUE");
+    console.log("THIS IS TRUE");
     db.select('email', 'hash').from('login').where('email', '=', email)
         .then(data => {
             bcrypt.compare(password, data[0].hash)
@@ -21,7 +21,7 @@ console.log("THIS IS TRUE");
                             .where('email', '=', email)
                             .then(user => {
 
-                                uid= uuid.v4();
+                                uid = uuid.v4();
                                 // crypto.randomBytes(16, (err, buf) => {
                                 //     if (err) throw err;
                                 //     buff = buf.toString('hex');
@@ -30,44 +30,49 @@ console.log("THIS IS TRUE");
                                 console.log(user[0].id);
 
                                 db('user_sessions').insert({
-                                    session_id : uid,
+                                    session_id: uid,
                                     expired: false,
                                     user_id: user[0].id
-                                }).then( success =>{
-                                   return res.status(200).json({ret_session_id: uid,
-                                logged_in: true
-                                });
+                                }).then(success => {
+                                    return res.status(200).json({
+                                        ret_session_id: uid,
+                                        logged_in: true
+                                    });
                                 }
                                 )
-                                .catch(err =>
-                                    {
+                                    .catch(err => {
                                         //cannot be logged in from diff devices
                                         return res.status(200).json({
                                             loginError: true
-                                            });
+                                            , error: err.message
+                                        });
                                     })
 
-                                
-                                
+
+
                                 //res.status(200).json({session_id: buff});
-                               
+
 
                             })
                             .catch(err => {
-                                res.status(400).json({loginError : true});
+                                res.status(400).json({ loginError: true,
+                                error: error.message });
                             })
                     }
 
                     else {
-                        return res.status(400).json({loginError : true});
+                        return res.status(400).json({ loginError: true,
+                        error: err.message
+                        });
                     }
 
                 })
                 .catch(err => {
-                    return res.status(400).json({loginError : true});
+                    return res.status(400).json({ loginError: true ,
+                    error: err.message});
                 });
         }
-        ).catch(err => { return res.status(400).json({loginError : true}) })
+        ).catch(err => { return res.status(400).json({ loginError: true, error: err.message }) })
 }
 
 module.exports = {
