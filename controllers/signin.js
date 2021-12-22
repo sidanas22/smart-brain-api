@@ -34,6 +34,8 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                                     expired: false,
                                     user_id: user[0].id
                                 }).then(success => {
+
+                                    console.log("HELLO");
                                     return res.status(200).json({
                                         ret_session_id: uid,
                                         logged_in: true
@@ -41,6 +43,7 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                                 }
                                 )
                                     .catch(err => {
+                                        console.log("Fahad")
                                         //cannot be logged in from diff devices
                                         return res.status(200).json({
                                             loginError: true
@@ -63,6 +66,7 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                     }
 
                     else {
+                        console.log("anas")
                         return res.status(200).json({ loginError: true,
                         error: err.message
                         });
@@ -75,7 +79,9 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                     error: err.message});
                 });
         }
-        ).catch(err => { return res.status(200).json({ loginError: true, error: err.message }) })
+        ).catch(err => { 
+            console.log("haseeb")
+            return res.status(200).json({ loginError: true, error: err.message }) })
 }
 
 module.exports = {
