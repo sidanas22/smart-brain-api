@@ -5,7 +5,7 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
     var uid;
     const { email, password } = req.body;
     if (!email || !password) {
-        return res.status(400).json("email or password missing");
+        return res.status(200).json("email or password missing");
     }
 
 
@@ -42,7 +42,7 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                                 )
                                     .catch(err => {
                                         //cannot be logged in from diff devices
-                                        return res.status(400).json({
+                                        return res.status(200).json({
                                             loginError: true
                                             , error: err.message
                                         });
@@ -57,13 +57,13 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                             .catch(err => {
                                 console.log("Error01:",err);
 
-                                res.status(400).json({ loginError: true,
+                                res.status(200).json({ loginError: true,
                                 error: err.message });
                             })
                     }
 
                     else {
-                        return res.status(400).json({ loginError: true,
+                        return res.status(200).json({ loginError: true,
                         error: err.message
                         });
                     }
@@ -71,11 +71,11 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                 })
                 .catch(err => {
                     console.log("The error 02",err);
-                    return res.status(400).json({ loginError: true ,
+                    return res.status(200).json({ loginError: true ,
                     error: err.message});
                 });
         }
-        ).catch(err => { return res.status(400).json({ loginError: true, error: err.message }) })
+        ).catch(err => { return res.status(200).json({ loginError: true, error: err.message }) })
 }
 
 module.exports = {
