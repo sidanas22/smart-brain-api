@@ -62,6 +62,7 @@ const handleCreateEvent = (req, res, db) => {
                                     return res.status(200).json({ eventCreated: true, event_info: success });
                                 })
                                 .catch(err => {
+                                    console.log(err);
                                     return res.status(400).json({ error: err.message });
                                 })
 
