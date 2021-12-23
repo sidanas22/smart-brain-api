@@ -66,7 +66,7 @@ const handleCreateEvent = (req, res, db) => {
                         }
 
                         else {
-                            return res.json({
+                            return res.status(400).json({
                                 error: "noAuth"
                             })
                         }
