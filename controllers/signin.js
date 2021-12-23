@@ -1,6 +1,8 @@
+
 const uuid = require('uuid');
 const express = require('express');
 const handleSignin = (db, bcrypt, crypto) => (req, res) => {
+    res.set("Access-Control-Allow-Origin", "http://localhost:3000");
     console.log("reaching here");
     var uid;
     const { email, password } = req.body;
