@@ -34,9 +34,16 @@ const redirect_for_sigin = (req, res, next, db) => {
         }).select('session_id')
             .then(data => {
                 //console.log(data);
+                if(data){
                 return res.status(200).json({
                     logged_in: true
-                })
+                })}
+                else
+                {
+                    return res.status(400).json({
+                        invalid_session_id: true
+                    })
+                }
                 //res.redirect('/home');
             })
             .catch(err => {
