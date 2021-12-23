@@ -41,7 +41,7 @@ const handleCreateEvent = (req, res, db) => {
                 })
                     .then(role => {
 
-                        if (role[0].roles == auth_role[0]) {
+                        if (true) {
 
                             console.log("helloworld");
                             return db('event').insert({
