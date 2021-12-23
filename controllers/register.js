@@ -62,7 +62,8 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
                                     name: "default_name",
                                     joined: new Date(),
                                     roles: 0,
-                                    web_view: role != 5 && role != 0 //false for student role
+                                    
+                                    web_view: (role != 5 && role != 0 )   //false for student role
                                 })
                                 .then(user => {
 
@@ -112,7 +113,7 @@ const handleRegisterdetail = (req, res, db) => {
 
     var ret_value = '';
 
-    const { name, lastname, session_id } = req.body;
+    const { name, lastname, session_id, accountType } = req.body;
 
 
 
@@ -141,6 +142,8 @@ const handleRegisterdetail = (req, res, db) => {
                     trx('users').where('id', '=', data[0].user_id).update({
                         name: name,
                         lastname: lastname,
+                        accounttype: accountType
+
                     })
                         .catch(err => {
                             return res.status(400).json({ error: err.message });
