@@ -7,7 +7,7 @@ const { json } = require('express/lib/response');
 const role = 0;
 
 const handleRegister = (req, res, db, bcrypt, crypto) => {
-    res.set("Access-Control-Allow-Origin", "http://localhost:3000");
+    // res.set("Access-Control-Allow-Origin", "http://localhost:3000");
     //res.send("signing in");
     console.log("haseeb req: ",req);
     var ret_value = '';
@@ -112,7 +112,7 @@ const handleRegister = (req, res, db, bcrypt, crypto) => {
 };
 
 const handleRegisterdetail = (req, res, db) => {
-    res.set("Access-Control-Allow-Origin", "http://localhost:3000");
+    // res.set("Access-Control-Allow-Origin", "http://localhost:3000");
     console.log("Haseeb req: ",req);
 
     var ret_value = '';
