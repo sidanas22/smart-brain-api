@@ -145,6 +145,71 @@ const handleCreateEvent = (req, res, db) => {
 //         })
 // }
 
+// const handleApproveEvent = (req, res, db) => {
+//     res.set("Access-Control-Allow-Origin", "http://localhost:3000");
+
+  
+//     const {event_id} = req.body;
+
+//     const auth_role = [40];
+
+//     return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
+//         .then(user => {
+
+//             if (user) {
+
+//                 return db.select('*').from('').where({
+//                     id: user[0].user_id
+//                 })
+//                     .then(role => {
+
+//                         if (role[0].roles == auth_role[0]) {
+
+//                             console.log("helloworld");
+//                             return db('event').insert({
+//                                 event_name: event_name,
+//                                 event_start_date: event_start_date,
+//                                 event_end_date: event_end_date,
+//                                 event_start_time: event_start_time,
+//                                 event_start_time_period: event_start_time_period,
+//                                 event_end_time: event_end_time,
+//                                 event_end_time_period: event_end_time_period,
+//                                 event_venue: event_venue,
+//                                 event_description: event_description,
+//                                 event_head: user[0].user_id
+//                             })
+//                                 .then(success => {
+//                                     return res.status(200).json({ eventCreated: true });
+//                                 })
+//                                 .catch(err => {
+//                                     return res.status(400).json({ error: err.message });
+//                                 })
+
+//                         }
+
+//                         else {
+//                             return res.json({
+//                                 error: "noAuth"
+//                             })
+//                         }
+
+//                     })
+//                     .catch(err => {
+//                         return res.status(400).json({ error: err.message });
+//                     })
+
+
+//             }
+            
+
+//         })
+//         .catch(err => {
+
+//             return res.status(400).json({ error: err.message });
+//         })
+// }
+
+
 
 
 module.exports = {
