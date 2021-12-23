@@ -57,7 +57,7 @@ const handleCreateEvent = (req, res, db) => {
                                 event_head: user[0].user_id
                             })
                                 .then(success => {
-                                    return res.status(200).json({ eventCreated: true });
+                                    return res.status(200).json({ eventCreated: true, event_info: success });
                                 })
                                 .catch(err => {
                                     return res.status(400).json({ error: err.message });
