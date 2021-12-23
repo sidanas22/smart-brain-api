@@ -25,7 +25,8 @@ const handleCreateEvent = (req, res, db) => {
         event_end_time,
         event_end_time_period,
         event_venue,
-        event_description
+        event_description,
+        image
 
     } = req.body;
 
@@ -54,7 +55,8 @@ const handleCreateEvent = (req, res, db) => {
                                 event_end_time_period: event_end_time_period,
                                 event_venue: event_venue,
                                 event_description: event_description,
-                                event_head: user[0].user_id
+                                event_head: user[0].user_id,
+                                image: image
                             })
                                 .then(success => {
                                     return res.status(200).json({ eventCreated: true, event_info: success });
