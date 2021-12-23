@@ -24,12 +24,7 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                             .then(user => {
 
                                 uid = uuid.v4();
-                                // crypto.randomBytes(16, (err, buf) => {
-                                //     if (err) throw err;
-                                //     buff = buf.toString('hex');
-                                //  });
-                                // console.log(uid);
-                                // console.log(user[0].id);
+                               
 
                                 db('user_sessions').insert({
                                     session_id: uid,
@@ -45,7 +40,7 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                                 }
                                 )
                                     .catch(err => {
-                                        console.log("Fahad")
+                                        console.log("Error is: ", error);
                                         //cannot be logged in from diff devices
                                         return res.status(200).json({
                                             loginError: true
@@ -60,7 +55,7 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
 
                             })
                             .catch(err => {
-                                console.log("Error01:",err);
+                                console.log("Error01 is:",err);
 
                                 res.status(200).json({ loginError: true,
                                 error: err.message });
@@ -82,7 +77,7 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                 });
         }
         ).catch(err => { 
-            console.log("haseeb")
+            console.log("The error is: ", err);
             return res.status(200).json({ loginError: true, error: err.message }) })
 }
 
