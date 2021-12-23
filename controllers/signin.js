@@ -10,6 +10,29 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
         return res.status(200).json("email or password missing");
     }
 
+    //new code
+   
+    // db.select('id').from('users').where('email', '=', email)
+    //     .then(user_id => {
+
+    //         if (user_id) {
+
+    //             db.select('session_id').from('user_sessions')
+    //                 .where('user_id', '=', user_id[0])
+    //                 .then(success => {
+
+    //                 })
+    //         }
+
+            
+    //     })
+    //     .catch(err => {
+    //         return res.status(400).json({
+    //             error: err
+    //         })
+    //     })
+    //////
+
 
     console.log("THIS IS TRUE");
     return db.select('email', 'hash').from('login').where('email', '=', email)
@@ -24,7 +47,7 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                             .then(user => {
 
                                 uid = uuid.v4();
-                               
+
 
                                 db('user_sessions').insert({
                                     session_id: uid,
@@ -55,30 +78,40 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
 
                             })
                             .catch(err => {
-                                console.log("Error01 is:",err);
+                                console.log("Error01 is:", err);
 
-                                res.status(200).json({ loginError: true,
-                                error: err.message });
+                                res.status(200).json({
+                                    loginError: true,
+                                    error: err.message
+                                });
                             })
                     }
 
                     else {
                         console.log("anas")
-                        return res.status(200).json({ loginError: true,
-                        error: err.message
+                        return res.status(200).json({
+                            loginError: true,
+                            error: err.message
                         });
                     }
 
                 })
                 .catch(err => {
-                    console.log("The error 02",err);
-                    return res.status(200).json({ loginError: true ,
-                    error: err.message});
+                    console.log("The error 02", err);
+                    return res.status(200).json({
+                        loginError: true,
+                        error: err.message
+                    });
                 });
         }
-        ).catch(err => { 
+        ).catch(err => {
             console.log("The error is: ", err);
-            return res.status(200).json({ loginError: true, error: err.message }) })
+            return res.status(200).json({ loginError: true, error: err.message })
+        })
+
+
+
+    //////
 }
 
 module.exports = {
