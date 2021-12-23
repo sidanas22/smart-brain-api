@@ -21,6 +21,7 @@ const express = require("express")
 //only for president
 //show how many have been created
 const handleCreateInduction = (req, res, db) => {
+    res.set("Access-Control-Allow-Origin", "http://localhost:3000");
 
     const { session_id,
         description,
@@ -72,6 +73,8 @@ const handleCreateInduction = (req, res, db) => {
 //only for faculty
 //show before how many waiting for approval
 const handleApproveInduction = (req, res, db) => {
+
+    res.set("Access-Control-Allow-Origin", "http://localhost:3000");
 
     const { session_id,
         id,
@@ -242,6 +245,8 @@ const handleApproveInduction = (req, res, db) => {
 
 //for president
 const ApproveInductionResponse = (req, res, db) => {
+
+    res.set("Access-Control-Allow-Origin", "http://localhost:3000");
 
     const { session_id,
         society_id,
@@ -436,6 +441,7 @@ const ApproveInductionResponse = (req, res, db) => {
 // }
 
 const handleGetUpcomingEventsInductions = (req, res, db) => {
+    res.set("Access-Control-Allow-Origin", "http://localhost:3000");
 
     const { session_id, get_what } = req.body
 
@@ -496,6 +502,7 @@ const handleGetUpcomingEventsInductions = (req, res, db) => {
 
 
 const GetInductionsData = (req, res, db) => {
+    res.set("Access-Control-Allow-Origin", "http://localhost:3000");
 
     const { session_id, get_what, society_id, induction_type_excom, id, title, first_name, last_name, email, dept_name, batch, cgpa } = req.body
     //get user id myself

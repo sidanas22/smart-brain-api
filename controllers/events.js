@@ -13,6 +13,7 @@
 // }
 
 const handleCreateEvent = (req, res, db) => {
+    res.set("Access-Control-Allow-Origin", "http://localhost:3000");
 
     const {
         session_id,

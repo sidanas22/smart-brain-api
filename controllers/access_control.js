@@ -1,6 +1,7 @@
 
 
 const handle_access_control = (req, res, db) => {
+    res.set("Access-Control-Allow-Origin", "http://localhost:3000");
     const { session_id, target_user_id, new_val } = req.body;
 
 

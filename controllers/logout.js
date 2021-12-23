@@ -4,6 +4,7 @@ const express = require('express');
 //const { decodeBase64 } = require("bcryptjs");
 
 const redirect_for_logout = (req, res, db, next) =>{
+    res.set("Access-Control-Allow-Origin", "http://localhost:3000");
     flag2 = false;
     console.log("Hello!");
 
@@ -24,6 +25,7 @@ const redirect_for_logout = (req, res, db, next) =>{
 
 
 const handle_logout = (req, res, db) => {
+    res.set("Access-Control-Allow-Origin", "http://localhost:3000");
     //console.log("When logging out. User Id is ", req.user.id);
     if (req.body.session_id) {
 
