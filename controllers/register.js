@@ -9,6 +9,7 @@ const role = 0;
 const handleRegister = (req, res, db, bcrypt, crypto) => {
     res.set("Access-Control-Allow-Origin", "http://localhost:3000");
     //res.send("signing in");
+    console.log("haseeb req: ",req);
     var ret_value = '';
     var uid;
     const { email, /*name,*/ password/*, role, web_view*/ } = req.body;
