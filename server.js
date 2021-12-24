@@ -125,6 +125,8 @@ app.post('/approve-induction-response', (req,res) =>{ induction.ApproveInduction
 
 app.post('/get-upcoming-inductions-events', (req,res) =>{ induction.handleGetUpcomingEventsInductions(req, res,db)})
 
+app.post('/get-upcoming-inductions-events-mobile', (req,res) =>{ induction.handleGetUpcomingEventsInductionsMobile(req, res,db)})
+
 app.post('/get-inductions-data', (req,res) =>{ induction.GetInductionsData(req, res,db)});
 
 

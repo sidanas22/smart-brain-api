@@ -9,7 +9,7 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
     if (!email || !password) {
         return res.status(200).json("email or password missing");
     }
-
+// haseeb pinted out fault
     //new code
    
     // db.select('id').from('users').where('email', '=', email)

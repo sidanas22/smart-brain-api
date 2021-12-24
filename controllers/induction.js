@@ -501,6 +501,135 @@ const handleGetUpcomingEventsInductions = (req, res, db) => {
 }
 
 
+
+// select induction_template_approval.id, induction_template_approval.description, induction_template_approval.title,
+// induction_template_approval.induction_type_excom , induction_template_approval.society_id, induction_template_approval.dept_list, 
+//induction_template_approval.aproved from induction_template_approval
+// join induction_responses on induction_template_approval.id != induction_id; 
+
+//currently_doing_thi
+const handleGetUpcomingEventsInductionsMobile = (req, res, db) => {
+    res.set("Access-Control-Allow-Origin", "http://localhost:3000");
+
+    const { session_id, get_what } = req.body
+
+    if (get_what == "induction") {
+
+        return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
+            .then(user_id => {
+
+                return db('induction_template_approval')
+                    .join('induction_responses', 'induction_template_approval.id', '!=', 'induction_responses.induction_id')
+                    .select(
+                        'induction_template_approval.id',
+                        'induction_template_approval.description',
+                        'induction_template_approval.title',
+                        'induction_template_approval.induction_type_excom',
+                        'induction_template_approval.society_id',
+                        'induction_template_approval.dept_list',
+                        'induction_template_approval.aproved')
+                    .where({
+                        aproved: true
+                    })
+                    .then(induction_list => {
+                        res.status(200).json({
+                            induction_list: induction_list
+                        })
+                    })
+                    .catch(err => {
+                        //
+                        res.status(400).json({
+                            error: err
+                        })
+                    })
+
+                // return db.select('induction_id').from('induction_responses')
+                // .whereNot({
+                //     user_id : user_id[0]
+                // })
+                // .then( list_induction_id => {
+
+                // })
+                // .catch(err => {
+
+                // })
+
+
+
+            })
+            .catch(err => {
+
+                res.status(400).json({
+                    error: err
+                })
+
+            })
+
+
+
+        // return db.select('*').from('induction_template_approval')
+        //     .where(
+        //         {
+        //             aproved: true
+        //         }
+        //     )
+        //     // .andWhere(function() {
+        //     //     this.where('id', '>', 10)
+        //     //   })
+        //     .then(induction_list => {
+
+
+
+
+
+        //         res.status(200).json({
+        //             induction_list: induction_list
+        //         })
+
+        //     })
+        //     .catch(err => {
+        //         res.status(400).json({
+        //             error: err.message
+        //         })
+        //     })
+
+    }
+    //have to adapt this after event enrollment is done
+    else if (get_what == "event") {
+
+        const d = new Date();
+
+        month = (d.getMonth() + 1).toString();	// Month	[mm]	(1 - 12)
+        date = d.getDate().toString();		// Day		[dd]	(1 - 31)
+        year = d.getFullYear().toString();
+        var now_date = year + month + date;
+        console.log("Current date:", now_date);
+
+        return db.select('*').from('event')
+            .where(
+                {
+                    approved: true
+                }
+            )
+            .andWhere(function () {
+                this.where('event_start_date', '>', now_date)
+            })
+            .then(event_list => {
+                res.status(200).json({
+                    event_list: event_list
+                })
+
+            })
+            .catch(err => {
+                res.status(400).json({
+                    error: err.message
+                })
+            })
+
+    }
+}
+
+
 const GetInductionsData = (req, res, db) => {
     res.set("Access-Control-Allow-Origin", "http://localhost:3000");
 
@@ -510,49 +639,51 @@ const GetInductionsData = (req, res, db) => {
         return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
             .then(user => {
 
+
+                //check if haseeb is sending induction_id or not
                 return db('induction_responses').insert({
                     society_id: society_id,
                     induction_type_excom: induction_type_excom,
                     induction_id: id,
-                    title: title, 
-                    first_name: first_name, 
+                    title: title,
+                    first_name: first_name,
                     last_name: last_name,
                     email: email,
-                     dept_name: dept_name,
-                     batch : batch,
-                     cgpa: cgpa,
-                     user_id : user[0].user_id,
-                     status: false
+                    dept_name: dept_name,
+                    batch: batch,
+                    cgpa: cgpa,
+                    user_id: user[0].user_id,
+                    status: false
 
                 })
-                .then( success=>{
+                    .then(success => {
 
-                    res.status(200).json({
-                        induction_entered : true
+                        res.status(200).json({
+                            induction_entered: true
+                        })
+
                     })
-
-                } )
-                .catch(err => {
-                    res.status(200).json(
-                        {
+                    .catch(err => {
+                        res.status(200).json(
+                            {
                                 error: err.message
-                        }
-                    )
-                })
+                            }
+                        )
+                    })
             })
-            .catch(err =>{
+            .catch(err => {
                 res.status(200).json(
                     {
-                            error: err.message
+                        error: err.message
                     }
                 )
             })
-            
+
     }
 
     else if (get_what == "event") {
 
-    
+
     }
 }
 
@@ -562,5 +693,6 @@ module.exports = {
     handleApproveInduction,
     ApproveInductionResponse,
     handleGetUpcomingEventsInductions,
-    GetInductionsData
+    GetInductionsData,
+    handleGetUpcomingEventsInductionsMobile
 }
