@@ -555,7 +555,7 @@ const handleGetUpcomingEventsInductionsMobile = (req, res, db) => {
                     })
                     .catch(err => {
 
-                console.log("anas");
+                console.log(err.message);
                     
                         res.status(400).json({
                             error: err.message
