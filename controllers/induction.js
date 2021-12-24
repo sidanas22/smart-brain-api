@@ -507,6 +507,16 @@ const handleGetUpcomingEventsInductions = (req, res, db) => {
 //induction_template_approval.aproved from induction_template_approval
 // join induction_responses on induction_template_approval.id != induction_id; 
 
+
+
+// select induction_template_approval.id, induction_template_approval.description, induction_template_approval.title, 
+// induction_template_approval.induction_type_excom , induction_template_approval.society_id, induction_template_approval.dept_list, 
+// induction_template_approval.aproved 
+// from induction_template_approval left join  induction_responses on
+//  induction_template_approval.id = induction_responses.induction_id and 
+// induction_template_approval.society_id = induction_responses.society_id and 
+// induction_responses.user_id = 300 where induction_responses.induction_id is NULL or 
+// induction_responses.society_id is NULL or induction_responses.user_id is NULL;
 //currently_doing_thi
 const handleGetUpcomingEventsInductionsMobile = (req, res, db) => {
     res.set("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -518,8 +528,8 @@ const handleGetUpcomingEventsInductionsMobile = (req, res, db) => {
         return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
             .then(user_id => {
 
-                return db('induction_template_approval')
-                    .join('induction_responses', 'induction_template_approval.id', '!=', 'induction_responses.induction_id')
+                return db
+                    
                     .select(
                         'induction_template_approval.id',
                         'induction_template_approval.description',
@@ -528,10 +538,19 @@ const handleGetUpcomingEventsInductionsMobile = (req, res, db) => {
                         'induction_template_approval.society_id',
                         'induction_template_approval.dept_list',
                         'induction_template_approval.aproved')
-                    .where({
-                        aproved: true
-                    })
+                        .from('induction_template_approval')
+                        .join('induction_responses', function() {
+                            this.on('induction_template_approval.id', '=' ,'induction_responses.induction_id').
+                            andOn('induction_template_approval.society_id','=', 'induction_responses.society_id')
+                            .andOn('induction_responses.user_id', '=', user_id[0])
+                          })
+                          .whereNull('induction_responses.induction_id')
+                          .orWhereNull('induction_responses.society_id')
+                          .orWhereNull('induction_responses.user_id')
+                    
                     .then(induction_list => {
+                        
+                        
                         res.status(200).json({
                             induction_list: induction_list
                         })
