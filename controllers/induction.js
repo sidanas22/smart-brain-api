@@ -531,34 +531,33 @@ const handleGetUpcomingEventsInductionsMobile = (req, res, db) => {
                 // console.log(user_id[0].user_id);
 
                 return db.select(
-                        'induction_template_approval.id',
-                        'induction_template_approval.description',
-                        'induction_template_approval.title',
-                        'induction_template_approval.induction_type_excom',
-                        'induction_template_approval.society_id',
-                        'induction_template_approval.dept_list',
-                        'induction_template_approval.aproved')
-                        .from('induction_template_approval')
-                        .join('induction_responses', function() {
-                            this.on('induction_template_approval.id', '=' ,'induction_responses.induction_id').
-                            andOn('induction_template_approval.society_id','=', 'induction_responses.society_id')
+                    'induction_template_approval.id',
+                    'induction_template_approval.description',
+                    'induction_template_approval.title',
+                    'induction_template_approval.induction_type_excom',
+                    'induction_template_approval.society_id',
+                    'induction_template_approval.dept_list',
+                    'induction_template_approval.aproved')
+                    .from('induction_template_approval')
+                    .leftJoin('induction_responses', function () {
+                        this.on('induction_template_approval.id', '=', 'induction_responses.induction_id').
+                            andOn('induction_template_approval.society_id', '=', 'induction_responses.society_id')
                             .andOn('induction_responses.user_id', '=', user_id[0].user_id)
-                          })
-                          .whereNull('induction_responses.induction_id')
-                          .orWhereNull('induction_responses.society_id')
-                          .orWhereNull('induction_responses.user_id')
-                    
+                    })
+                    .whereNull('induction_responses.induction_id')
+                    .orWhereNull('induction_responses.society_id')
+                    .orWhereNull('induction_responses.user_id')
                     .then(induction_list => {
-                        
-                        
+
+                        console.log
                         res.status(200).json({
                             induction_list: induction_list
                         })
                     })
                     .catch(err => {
 
-                console.log(err.message);
-                    
+                        console.log(err.message);
+
                         res.status(400).json({
                             error: err.message
                         })
