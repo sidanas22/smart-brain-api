@@ -528,9 +528,7 @@ const handleGetUpcomingEventsInductionsMobile = (req, res, db) => {
         return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
             .then(user_id => {
 
-                return db
-                    
-                    .select(
+                return db.select(
                         'induction_template_approval.id',
                         'induction_template_approval.description',
                         'induction_template_approval.title',
