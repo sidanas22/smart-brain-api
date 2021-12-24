@@ -58,7 +58,8 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                                     console.log("HELLO");
                                     return res.status(200).json({
                                         ret_session_id: uid,
-                                        logged_in: true
+                                        logged_in: true,
+                                        user_info: user[0]
                                     });
                                 }
                                 )
@@ -67,7 +68,7 @@ const handleSignin = (db, bcrypt, crypto) => (req, res) => {
                                         //cannot be logged in from diff devices
                                         return res.status(200).json({
                                             loginError: true
-                                            , error: err.message
+                                            , error: err
                                         });
                                     })
 
