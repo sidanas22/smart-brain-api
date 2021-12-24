@@ -556,7 +556,7 @@ const handleGetUpcomingEventsInductionsMobile = (req, res, db) => {
                         })
                     })
                     .catch(err => {
-                        //
+                    
                         res.status(400).json({
                             error: err
                         })
@@ -578,6 +578,7 @@ const handleGetUpcomingEventsInductionsMobile = (req, res, db) => {
             })
             .catch(err => {
 
+                console.log("anas");
                 res.status(400).json({
                     error: err
                 })
