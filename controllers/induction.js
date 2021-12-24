@@ -604,7 +604,7 @@ const handleGetUpcomingEventsInductionsMobile = (req, res, db) => {
                 ).from('event')
                     .leftJoin('event_registerations', function () {
                         this.on('event.event_id', '=', 'event_registerations.event_id')
-                            .andOn('event.user_id', '=', 'event_registerations.user_id')
+                            .andOn('event_registerations.user_id','=',user_id[0].user_id)
                             // .whereNotNull('event_registerations.status')
                     })
                     .then( event_list => {
