@@ -502,10 +502,6 @@ const handleGetUpcomingEventsInductions = (req, res, db) => {
 
 
 
-// select induction_template_approval.id, induction_template_approval.description, induction_template_approval.title,
-// induction_template_approval.induction_type_excom , induction_template_approval.society_id, induction_template_approval.dept_list, 
-//induction_template_approval.aproved from induction_template_approval
-// join induction_responses on induction_template_approval.id != induction_id; 
 
 
 
@@ -586,33 +582,6 @@ const handleGetUpcomingEventsInductionsMobile = (req, res, db) => {
             })
 
 
-
-        // return db.select('*').from('induction_template_approval')
-        //     .where(
-        //         {
-        //             aproved: true
-        //         }
-        //     )
-        //     // .andWhere(function() {
-        //     //     this.where('id', '>', 10)
-        //     //   })
-        //     .then(induction_list => {
-
-
-
-
-
-        //         res.status(200).json({
-        //             induction_list: induction_list
-        //         })
-
-        //     })
-        //     .catch(err => {
-        //         res.status(400).json({
-        //             error: err.message
-        //         })
-        //     })
-
     }
     //have to adapt this after event enrollment is done
     else if (get_what == "event") {
@@ -625,26 +594,60 @@ const handleGetUpcomingEventsInductionsMobile = (req, res, db) => {
         var now_date = year + month + date;
         console.log("Current date:", now_date);
 
-        return db.select('*').from('event')
-            .where(
-                {
-                    approved: true
-                }
-            )
-            .andWhere(function () {
-                this.where('event_start_date', '>', now_date)
-            })
-            .then(event_list => {
-                res.status(200).json({
-                    event_list: event_list
+        return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
+            .then(user_id => {
+
+                return db.select(
+                'event.event_id', 'event.event_name',  'event.event_head','event.event_description', 'event.event_venue','event.event_start_date','event.event_end_date',
+                 'event.event_start_time', 'event.event_end_time', 'event.event_start_time_period', 'event.event_end_time_period', 'event.approved', 'event.image', 'event_registerations.status'
+
+                ).from('event')
+                    .leftJoin('event_registerations', function () {
+                        this.on('event.event_id', '=', 'event_registerations.event_id')
+                            .andOn('event.user_id', '=', 'event_registerations.user_id')
+                            // .whereNotNull('event_registerations.status')
+                    })
+                    .then( event_list => {
+                        console.log(event_list)
+                        res.status(200).json({
+                            event_list
+                        })
+                    })
+                    .catch(err =>{
+                        res.status(400).json({
+                            error: err,
+                            errormessage: err.message
+                        })
+                    })
+
+            }).catch(err => {
+                res.status(400).json({
+                    error: err,
+                    errormessage: err.message
                 })
 
             })
-            .catch(err => {
-                res.status(400).json({
-                    error: err.message
-                })
-            })
+
+        // return db.select('*').from('event')
+        //     .where(
+        //         {
+        //             approved: true
+        //         }
+        //     )
+        //     // .andWhere(function () {
+        //     //     this.where('event_start_date', '>=', now_date)
+        //     // })
+        //     .then(event_list => {
+        //         res.status(200).json({
+        //             event_list: event_list
+        //         })
+
+        //     })
+        //     .catch(err => {
+        //         res.status(400).json({
+        //             error: err.message
+        //         })
+        //     })
 
     }
 }
@@ -708,11 +711,60 @@ const GetInductionsData = (req, res, db) => {
 }
 
 
+const GetEventsData = (req, res, db) => {
+    res.set("Access-Control-Allow-Origin", "http://localhost:3000");
+
+    const { session_id, get_what, event_id } = req.body
+    //get user id myself
+    if (get_what == "event") {
+        return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
+            .then(user => {
+
+
+                //check if haseeb is sending induction_id or not
+                return db('event_registerations').insert({
+                    event_id,
+                    user_id: user[0].user_id,
+                    status: true
+
+                })
+                    .then(success => {
+
+                        res.status(200).json({
+                            event_entered: true
+                        })
+
+                    })
+                    .catch(err => {
+                        res.status(200).json(
+                            {
+                                fullError: err,
+                                error: err.message
+                            }
+                        )
+                    })
+            })
+            .catch(err => {
+                res.status(200).json(
+                    {
+                        fulError: err,
+                        error: err.message
+                    }
+                )
+            })
+
+    }
+
+
+}
+
+
 module.exports = {
     handleCreateInduction,
     handleApproveInduction,
     ApproveInductionResponse,
     handleGetUpcomingEventsInductions,
     GetInductionsData,
-    handleGetUpcomingEventsInductionsMobile
+    handleGetUpcomingEventsInductionsMobile,
+    GetEventsData
 }

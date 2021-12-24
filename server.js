@@ -128,6 +128,7 @@ app.post('/get-upcoming-inductions-events', (req,res) =>{ induction.handleGetUpc
 app.post('/get-upcoming-inductions-events-mobile', (req,res) =>{ induction.handleGetUpcomingEventsInductionsMobile(req, res,db)})
 
 app.post('/get-inductions-data', (req,res) =>{ induction.GetInductionsData(req, res,db)});
+app.post('/get-event-reg-data', (req,res) =>{ induction.GetEventsData(req, res,db)});
 
 
 
