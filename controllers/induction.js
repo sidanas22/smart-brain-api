@@ -528,7 +528,7 @@ const handleGetUpcomingEventsInductionsMobile = (req, res, db) => {
         return db.select('user_id').from('user_sessions').where('session_id', '=', session_id)
             .then(user_id => {
 
-                console.log(user_id[0].user_id);
+                // console.log(user_id[0].user_id);
 
                 return db.select(
                         'induction_template_approval.id',
@@ -542,7 +542,7 @@ const handleGetUpcomingEventsInductionsMobile = (req, res, db) => {
                         .join('induction_responses', function() {
                             this.on('induction_template_approval.id', '=' ,'induction_responses.induction_id').
                             andOn('induction_template_approval.society_id','=', 'induction_responses.society_id')
-                            .andOn('induction_responses.user_id', '=', user_id[0])
+                            .andOn('induction_responses.user_id', '=', user_id[0].user_id)
                           })
                           .whereNull('induction_responses.induction_id')
                           .orWhereNull('induction_responses.society_id')
